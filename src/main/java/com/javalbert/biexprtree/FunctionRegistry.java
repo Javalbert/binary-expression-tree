@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class FunctionRegistry {
-	private final Map<String, Func> functions = new HashMap<>();
+	private final Map<OperatorInfo, Func> functions = new HashMap<>();
 	
-	public void register(BinaryFunc bifunc) {
-		functions.put(bifunc.getOperator(), bifunc);
+	public <T, U> void register(BinaryFunc<T, U> bifunc) {
+		functions.put(bifunc.getOperatorInfo(), bifunc);
 	}
 	
-	public void register(UnaryFunc ufunc) {
-		functions.put(ufunc.getOperator(), ufunc);
+	public <T> void register(UnaryFunc<T> ufunc) {
+		functions.put(ufunc.getOperatorInfo(), ufunc);
 	}
 }

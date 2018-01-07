@@ -1,27 +1,23 @@
 package com.javalbert.biexprtree;
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 
-public class BinaryFunc implements Func {
-	private final BiFunction function;
-	private final String operator;
-	
+public class BinaryFunc<T, U> implements Func {
+	private final BiFunction<T, U, ?> function;
+	private final OperatorInfo operatorInfo;
+
 	@Override
-	public FunctionType getFunctionType() {
-		return FunctionType.BINARY;
-	}
-	
-	@Override
-	public String getOperator() {
-		return operator;
+	public OperatorInfo getOperatorInfo() {
+		return operatorInfo;
 	}
 	
 	public BiFunction getFunction() {
 		return function;
 	}
 	
-	public BinaryFunc(String operator, BiFunction function) {
-		this.operator = Functions.validateOperator(operator);
-		this.function = function;
+	public BinaryFunc(BinaryOperatorInfo<T, U> operatorInfo, BiFunction<T, U, ?> function) {
+		this.operatorInfo = Objects.requireNonNull(operatorInfo, "operatorInfo must not be null");
+		this.function = Objects.requireNonNull(function, "function must not be null");
 	}
 }

@@ -23,7 +23,7 @@ public final class Variables {
 	}
 
 	static String validateName(String name) {
-		Objects.requireNonNull(name);
+		Objects.requireNonNull(name, "name must not be null");
 		
 		if ("".equals(name) || INVALID_NAME.matcher(name).find()) {
 			throw new IllegalArgumentException(
