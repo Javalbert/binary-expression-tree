@@ -4,7 +4,7 @@ import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class Variable<T> {
-	private static final Pattern INVALID_NAME = Pattern.compile("[^a-zA-Z0-9_]");
+	private static final Pattern INVALID_NAME = Pattern.compile("[^a-zA-Z0-9_$]|^[0-9]");
 	
 	private final String name;
 	private final Class<T> type;
@@ -44,8 +44,8 @@ public class Variable<T> {
 		
 		if ("".equals(name) || INVALID_NAME.matcher(name).find()) {
 			throw new IllegalArgumentException(
-					"Variable names must contain only alphanumeric"
-					+ " characters or underscore"
+					"Variable names must contain only alphanumeric, underscore, or dollar sign"
+					+ " characters, and must not start with a number"
 					);
 		}
 		return name;
