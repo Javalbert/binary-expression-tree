@@ -5,7 +5,7 @@ import spock.lang.Specification
 class VariableSpec extends Specification {
 	def 'String Variable called "name"'() {
 		given: 'a String Variable called "name"'
-		Variable v = new Variable(String, 'name')
+		RefVariable v = new RefVariable(String, 'name')
 		
 		expect: 'its type is equal to String.class'
 		v.type == String
@@ -16,7 +16,7 @@ class VariableSpec extends Specification {
 	
 	def 'String Variable is initialized with value of "Albert"'() {
 		given: 'a String Variable initialized with value "Albert"'
-		Variable v = new Variable(String, 'name', 'Albert')
+		RefVariable v = new RefVariable(String, 'name', 'Albert')
 		
 		expect: 'its value is equal to "Albert"'
 		v.value == 'Albert'
@@ -24,7 +24,7 @@ class VariableSpec extends Specification {
 	
 	def 'Assigning Integer value to String Variable throws IllegalArgumentExcpetion'() {
 		given: 'a String Variable'
-		Variable v = new Variable(String, 'name')
+		RefVariable v = new RefVariable(String, 'name')
 		
 		when: 'it is assigned an Integer value via setter'
 		v.value = 123
@@ -35,10 +35,10 @@ class VariableSpec extends Specification {
 	
 	def 'Constructor throws NPE when name is null'() {
 		given: 'a Variable'
-		Variable v = null
+		RefVariable v = null
 		
 		when: 'it is initialized with a null name'
-		v = new Variable(String, null)
+		v = new RefVariable(String, null)
 		
 		then: 'constructor threw NPE'
 		thrown(NullPointerException)
@@ -46,10 +46,10 @@ class VariableSpec extends Specification {
 	
 	def 'Constructor throws IllegalArgumentException when name contains invalid characters'() {
 		given: 'a Variable'
-		Variable v = null
+		RefVariable v = null
 		
 		when: 'it is initialized with a name "!nvalid-name"'
-		v = new Variable(String, '!nvalid-name')
+		v = new RefVariable(String, '!nvalid-name')
 		
 		then: 'constructor threw IllegalArgumentException'
 		thrown(IllegalArgumentException)
@@ -57,10 +57,10 @@ class VariableSpec extends Specification {
 	
 	def 'Constructor throws IllegalArgumentException when name is empty'() {
 		given: 'a Variable'
-		Variable v = null
+		RefVariable v = null
 		
 		when: 'it is initialized with an empty string for its name'
-		v = new Variable(String, '')
+		v = new RefVariable(String, '')
 		
 		then: 'constructor threw IllegalArgumentException'
 		thrown(IllegalArgumentException)

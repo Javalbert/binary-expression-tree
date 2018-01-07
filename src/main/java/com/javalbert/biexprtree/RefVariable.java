@@ -3,7 +3,7 @@ package com.javalbert.biexprtree;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
-public class Variable<T> {
+public class RefVariable<T> {
 	private static final Pattern INVALID_NAME = Pattern.compile("[^a-zA-Z0-9_$]|^[0-9]");
 	
 	private final String name;
@@ -29,11 +29,11 @@ public class Variable<T> {
 		this.value = value;
 	}
 
-	public Variable(Class<T> type, String name) {
+	public RefVariable(Class<T> type, String name) {
 		this(type, name, null);
 	}
 	
-	public Variable(Class<T> type, String name, T value) {
+	public RefVariable(Class<T> type, String name, T value) {
 		this.name = validateName(name);
 		this.type = type;
 		setValue(value);
