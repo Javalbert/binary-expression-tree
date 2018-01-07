@@ -42,9 +42,9 @@ public class Variable<T> {
 	private String validateName(String name) {
 		Objects.requireNonNull(name);
 		
-		if (INVALID_NAME.matcher(name).find()) {
+		if ("".equals(name) || INVALID_NAME.matcher(name).find()) {
 			throw new IllegalArgumentException(
-					"Variable names can only contain alphanumeric"
+					"Variable names must contain only alphanumeric"
 					+ " characters or underscore"
 					);
 		}

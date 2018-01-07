@@ -54,4 +54,15 @@ class VariableSpec extends Specification {
 		then: 'constructor threw IllegalArgumentException'
 		thrown(IllegalArgumentException)
 	}
+	
+	def 'Constructor throws IllegalArgumentException when name is empty'() {
+		given: 'a Variable'
+		Variable v = null
+		
+		when: 'it is initialized with an empty string for its name'
+		v = new Variable(String, '')
+		
+		then: 'constructor threw IllegalArgumentException'
+		thrown(IllegalArgumentException)
+	}
 }
