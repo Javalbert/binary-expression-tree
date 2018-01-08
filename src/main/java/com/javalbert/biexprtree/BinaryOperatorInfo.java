@@ -8,11 +8,6 @@ public class BinaryOperatorInfo<T, U> implements OperatorInfo {
 	private final Class<U> bClass;
 	
 	@Override
-	public FunctionType getFunctionType() {
-		return FunctionType.BINARY;
-	}
-	
-	@Override
 	public String getOperator() {
 		return operator;
 	}

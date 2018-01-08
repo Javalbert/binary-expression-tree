@@ -7,11 +7,6 @@ public class UnaryOperatorInfo<T> implements OperatorInfo {
 	private final Class<T> operandClass;
 	
 	@Override
-	public FunctionType getFunctionType() {
-		return FunctionType.UNARY;
-	}
-
-	@Override
 	public String getOperator() {
 		return operator;
 	}

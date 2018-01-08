@@ -2,7 +2,7 @@ package com.javalbert.biexprtree;
 
 import java.util.Objects;
 
-public class Operand<T> {
+public class Operand<T> implements Node {
 	private final Class<T> operandClass;
 	private T value;
 
