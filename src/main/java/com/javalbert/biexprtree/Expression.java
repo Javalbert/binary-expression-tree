@@ -6,7 +6,9 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Expression {
@@ -15,13 +17,23 @@ public class Expression {
 	}
 	
 	private final List<Node> nodes = new ArrayList<>();
+	private final Map<String, Variable> variables = new HashMap<>();
+	
+	public Variable getVariable(String name) {
+		return variables.get(name);
+	}
+	
+	/* START Operand methods */
 	
 	public Expression expr(Expression expr) {
+		Objects.requireNonNull(expr, "expr must not be null");
 		nodes.add(new Operand<>(Expression.class, expr));
 		return this;
 	}
 	
 	public Expression flatExpr(Expression expr) {
+		Objects.requireNonNull(expr, "expr must not be null");
+		
 		expr.nodes.stream()
 		.forEach(node -> {
 			if (node instanceof Operand) {
@@ -117,6 +129,8 @@ public class Expression {
 		
 		if (Expression.class.isAssignableFrom(cls)) {
 			throw new IllegalArgumentException("call expr() or flatExpr() instead when passing in an Expression");
+		} else if (Variable.class.isAssignableFrom(cls)) {
+			return val((Variable)o);
 		}
 		
 		switch (cls.getCanonicalName()) {
@@ -142,6 +156,7 @@ public class Expression {
 	
 	public <T> Expression val(Variable<T> v) {
 		nodes.add(new Operand<>(Variable.class, v));
+		variables.put(v.getName(), v);
 		return this;
 	}
 	
@@ -149,4 +164,99 @@ public class Expression {
 		nodes.add(new Operand<>(ZonedDateTime.class, d));
 		return this;
 	}
+	
+	/* END Operand methods */
+	
+	/* START Operator methods */
+	
+	public Expression binaryOp(BinaryOperatorNode node) {
+		nodes.add(Objects.requireNonNull(node));
+		return this;
+	}
+	
+	public Expression unaryOp(UnaryOperatorNode node) {
+		nodes.add(Objects.requireNonNull(node));
+		return this;
+	}
+	
+	// Math
+	
+	public Expression plus() {
+		nodes.add(Operators.ADD);
+		return this;
+	}
+	
+	public Expression minus() {
+		nodes.add(Operators.SUBTRACT);
+		return this;
+	}
+	
+	public Expression times() {
+		nodes.add(Operators.MULTIPLY);
+		return this;
+	}
+	
+	public Expression dividedBy() {
+		nodes.add(Operators.DIVIDE);
+		return this;
+	}
+	
+	public Expression modulo() {
+		nodes.add(Operators.MODULO);
+		return this;
+	}
+	
+	public Expression powerOf() {
+		nodes.add(Operators.POWER);
+		return this;
+	}
+	
+	// Boolean
+	
+	public Expression eq() {
+		nodes.add(Operators.EQ);
+		return this;
+	}
+	
+	public Expression noteq() {
+		nodes.add(Operators.NOTEQ);
+		return this;
+	}
+	
+	public Expression lt() {
+		nodes.add(Operators.LT);
+		return this;
+	}
+	
+	public Expression lteq() {
+		nodes.add(Operators.LTEQ);
+		return this;
+	}
+	
+	public Expression gt() {
+		nodes.add(Operators.GT);
+		return this;
+	}
+	
+	public Expression gteq() {
+		nodes.add(Operators.GTEQ);
+		return this;
+	}
+	
+	public Expression and() {
+		nodes.add(Operators.AND);
+		return this;
+	}
+	
+	public Expression or() {
+		nodes.add(Operators.OR);
+		return this;
+	}
+	
+	public Expression not() {
+		nodes.add(Operators.NOT);
+		return this;
+	}
+	
+	/* END Operator methods */
 }
