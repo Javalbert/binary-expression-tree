@@ -142,20 +142,44 @@ public class Expression {
 			return val((Variable)o);
 		}
 		
-		switch (cls.getCanonicalName()) {
-			case "boolean": return val((boolean) o);
-			case "char": return val((char) o);
-			case "double": return val((double) o);
-			case "float": return val((float) o);
-			case "int": return val((int) o);
-			case "long": return val((long) o);
-			default:
-				// other types just do new Operand<>(cls, o);
-				break;
+		// Gradle build complains:
+		/*
+		error: incompatible types: T cannot be converted to boolean
+		                        case "boolean": return val((boolean) o);
+		                                                             ^
+		  where T is a type-variable:
+		 */
+		// After some Googling, found answers that did not work
+		// and there is no way to disable the lint since compilerOptions is read-only
+//		switch (cls.getCanonicalName()) {
+//			case "boolean": return val((boolean) o);
+//			case "char": return val((char) o);
+//			case "double": return val((double) o);
+//			case "float": return val((float) o);
+//			case "int": return val((int) o);
+//			case "long": return val((long) o);
+//			default:
+//				// other types just do new Operand<>(cls, o);
+//				break;
+//		}
+		if (toPrimitive(o, cls)) {
+			return this;
 		}
 		
 		nodes.add(new Operand<>(cls, o));
 		return this;
+	}
+	
+	private boolean toPrimitive(Object o, Class cls) {
+		switch (cls.getCanonicalName()) {
+			case "boolean": val((boolean) o); return true;
+			case "char": val((char) o); return true;
+			case "double": val((double) o); return true;
+			case "float": val((float) o); return true;
+			case "int": val((int) o); return true;
+			case "long": val((long) o); return true;
+		}
+		return false;
 	}
 	
 	public Expression val(String s) {
