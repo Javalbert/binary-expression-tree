@@ -44,6 +44,10 @@ public class Expression {
 			if (node instanceof Operand) {
 				Operand operand = (Operand)node;
 				val(operand.getValue(), operand.getOperandClass());
+			} else if (node instanceof BinaryOperatorDefinition) {
+				binaryOp((BinaryOperatorDefinition) node);
+			} else {
+				unaryOp((UnaryOperatorDefinition) node);
 			}
 		});
 		return this;
