@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,10 @@ public class Expression {
 	
 	private final List<Node> nodes = new ArrayList<>();
 	private final Map<String, Variable> variables = new HashMap<>();
+	
+	List<Node> getNodes() {
+		return Collections.unmodifiableList(nodes);
+	}
 	
 	public Variable getVariable(String name) {
 		return variables.get(name);
@@ -169,13 +174,13 @@ public class Expression {
 	
 	/* START Operator methods */
 	
-	public Expression binaryOp(BinaryOperatorNode node) {
-		nodes.add(Objects.requireNonNull(node));
+	public Expression binaryOp(BinaryOperatorDefinition op) {
+		nodes.add(Objects.requireNonNull(op));
 		return this;
 	}
 	
-	public Expression unaryOp(UnaryOperatorNode node) {
-		nodes.add(Objects.requireNonNull(node));
+	public Expression unaryOp(UnaryOperatorDefinition op) {
+		nodes.add(Objects.requireNonNull(op));
 		return this;
 	}
 	

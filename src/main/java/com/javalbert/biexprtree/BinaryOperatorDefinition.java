@@ -1,6 +1,6 @@
 package com.javalbert.biexprtree;
 
-public class BinaryOperatorNode implements Operator {
+public class BinaryOperatorDefinition implements Operator {
 	private final String operator;
 	
 	@Override
@@ -8,7 +8,7 @@ public class BinaryOperatorNode implements Operator {
 		return operator;
 	}
 
-	public BinaryOperatorNode(String operator) {
+	public BinaryOperatorDefinition(String operator) {
 		this.operator = Functions.validateOperator(operator);
 	}
 }
