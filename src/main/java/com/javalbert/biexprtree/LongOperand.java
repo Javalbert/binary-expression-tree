@@ -25,4 +25,9 @@ public class LongOperand extends Operand<Long> {
 		super(long.class, null);
 		this.longValue = longValue;
 	}
+	
+	@Override
+	public String toString() {
+		return Long.toString(longValue);
+	}
 }

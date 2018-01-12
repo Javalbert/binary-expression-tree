@@ -11,4 +11,9 @@ public class BinaryOperatorDefinition implements Operator {
 	public BinaryOperatorDefinition(String operator) {
 		this.operator = Functions.validateOperator(operator);
 	}
+	
+	@Override
+	public String toString() {
+		return operator;
+	}
 }

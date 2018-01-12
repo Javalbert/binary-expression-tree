@@ -22,4 +22,9 @@ public class Operand<T> implements Node {
 		this.operandClass = Objects.requireNonNull(operandClass, "operandClass must not be null");
 		this.value = value;
 	}
+	
+	@Override
+	public String toString() {
+		return value != null ? value.toString() : "null";
+	}
 }

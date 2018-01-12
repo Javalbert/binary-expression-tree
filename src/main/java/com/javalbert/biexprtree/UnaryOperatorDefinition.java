@@ -11,4 +11,9 @@ public class UnaryOperatorDefinition implements Operator {
 	public UnaryOperatorDefinition(String operator) {
 		this.operator = Functions.validateOperator(operator);
 	}
+	
+	@Override
+	public String toString() {
+		return operator;
+	}
 }

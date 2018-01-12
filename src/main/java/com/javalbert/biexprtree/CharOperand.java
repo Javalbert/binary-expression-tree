@@ -25,4 +25,9 @@ public class CharOperand extends Operand<Character> {
 		super(char.class, null);
 		this.charValue = charValue;
 	}
+	
+	@Override
+	public String toString() {
+		return String.valueOf(charValue);
+	}
 }

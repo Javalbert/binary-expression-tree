@@ -40,4 +40,9 @@ public class RefVariable<T> implements Variable<T> {
 		this.type = type;
 		setValue(value);
 	}
+	
+	@Override
+	public String toString() {
+		return type.getSimpleName() + " " + name + " = " + value;
+	}
 }

@@ -25,4 +25,9 @@ public class DoubleOperand extends Operand<Double> {
 		super(double.class, null);
 		this.doubleValue = doubleValue;
 	}
+	
+	@Override
+	public String toString() {
+		return Double.toString(doubleValue);
+	}
 }

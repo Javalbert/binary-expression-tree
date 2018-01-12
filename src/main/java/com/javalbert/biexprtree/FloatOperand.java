@@ -25,4 +25,9 @@ public class FloatOperand extends Operand<Float> {
 		super(float.class, null);
 		this.floatValue = floatValue;
 	}
+	
+	@Override
+	public String toString() {
+		return Float.toString(floatValue);
+	}
 }

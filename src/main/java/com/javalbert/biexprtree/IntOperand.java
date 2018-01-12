@@ -25,4 +25,9 @@ public class IntOperand extends Operand<Integer> {
 		super(int.class, null);
 		this.intValue = intValue;
 	}
+	
+	@Override
+	public String toString() {
+		return Integer.toString(intValue);
+	}
 }

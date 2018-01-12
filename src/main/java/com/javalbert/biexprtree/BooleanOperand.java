@@ -25,4 +25,9 @@ public class BooleanOperand extends Operand<Boolean> {
 		super(boolean.class, null);
 		this.booleanValue = booleanValue;
 	}
+	
+	@Override
+	public String toString() {
+		return String.valueOf(booleanValue);
+	}
 }
