@@ -244,6 +244,11 @@ public class Expression {
 		return this;
 	}
 	
+	public Expression negate() {
+		nodes.add(Operators.NEGATE);
+		return this;
+	}
+	
 	// Boolean
 	
 	public Expression eq() {
