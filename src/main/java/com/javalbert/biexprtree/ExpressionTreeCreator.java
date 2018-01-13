@@ -10,8 +10,8 @@ public class ExpressionTreeCreator {
 	// processing
 	//
 	private Node currentNode;
-	private Deque<Node> nodeStack;
-	private Deque<Node> processStack;
+	private Deque<Node> nodeDeque;
+	private Deque<Node> processDeque;
 	
 	// output
 	//
@@ -28,22 +28,22 @@ public class ExpressionTreeCreator {
 	public ExpressionTreeCreator create() {
 		setupStacks();
 		
-		while (!nodeStack.isEmpty() || processStack.size() != 1) {
+		while (!nodeDeque.isEmpty() || processDeque.size() != 1) {
 			popStack();
 			
 			if (handleOperand()) {;}
 			else if (handleOperator()) {;}
 		}
 		
-		rootNode = processStack.removeLast();
+		rootNode = processDeque.removeLast();
 		cleanUp();
 		return this;
 	}
 	
 	private void cleanUp() {
 		currentNode = null;
-		nodeStack = null;
-		processStack = null;
+		nodeDeque = null;
+		processDeque = null;
 	}
 	
 	private boolean handleBinaryOperatorDefinition() {
@@ -51,16 +51,16 @@ public class ExpressionTreeCreator {
 			return false;
 		}
 		
-		Node node = processStack.peekLast();
+		Node node = processDeque.peekLast();
 		if (!(node instanceof Operand)) {
 			return false;
 		}
-		processStack.removeLast();
+		processDeque.removeLast();
 		
 		BinaryOperatorDefinition binaryOpDef = (BinaryOperatorDefinition)currentNode;
-		BinaryOperatorNode binaryNode = new BinaryOperatorNode(
-				binaryOpDef.getOperator(), null, (Operand)node);
-		processStack.addLast(binaryNode);
+		BinaryOperatorNode binaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
+		binaryNode.setLeftOperand((Operand)node);
+		processDeque.addLast(binaryNode);
 		
 		return true;
 	}
@@ -68,17 +68,17 @@ public class ExpressionTreeCreator {
 	private boolean handleOperand() {
 		if (!(currentNode instanceof Operand)) {
 			return false;
-		} else if (processStack.isEmpty()) {
-			processStack.addLast(currentNode);
+		} else if (processDeque.isEmpty()) {
+			processDeque.addLast(currentNode);
 			return true;
 		}
 		
 		Operand operand = (Operand)currentNode;
 		
-		Operator operatorNode = (Operator)processStack.peekLast();
+		Operator operatorNode = (Operator)processDeque.peekLast();
 		if (operatorNode instanceof BinaryOperatorNode) {
 			BinaryOperatorNode binaryNode = (BinaryOperatorNode)operatorNode;
-			binaryNode.setLeftOperand(operand);
+			binaryNode.setRightOperand(operand);
 		} else if (operatorNode instanceof UnaryOperatorNode) {
 			UnaryOperatorNode unaryNode = (UnaryOperatorNode)operatorNode;
 			unaryNode.setOperand(operand);
@@ -102,26 +102,19 @@ public class ExpressionTreeCreator {
 			return false;
 		}
 		
-		Node node = processStack.peekLast();
-		if (!(node instanceof Operand)) {
-			return false;
-		}
-		processStack.removeLast();
-		
 		UnaryOperatorDefinition unaryOpDef = (UnaryOperatorDefinition)currentNode;
-		UnaryOperatorNode unaryNode = new UnaryOperatorNode(
-				unaryOpDef.getOperator(), (Operand)node);
-		processStack.addLast(unaryNode);
+		UnaryOperatorNode unaryNode = new UnaryOperatorNode(unaryOpDef.getOperator());
+		processDeque.addLast(unaryNode);
 		
 		return true;
 	}
 	
 	private void popStack() {
-		currentNode = !nodeStack.isEmpty() ? nodeStack.removeLast() : processStack.removeLast();
+		currentNode = !nodeDeque.isEmpty() ? nodeDeque.removeFirst() : processDeque.removeFirst();
 	}
 	
 	private void setupStacks() {
-		nodeStack = new ArrayDeque<>(expr.getNodes());
-		processStack = new ArrayDeque<>();
+		nodeDeque = new ArrayDeque<>(expr.getNodes());
+		processDeque = new ArrayDeque<>(3);
 	}
 }

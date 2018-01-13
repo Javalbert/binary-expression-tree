@@ -17,9 +17,8 @@ public class UnaryOperatorNode implements Operator {
 		this.operand = operand;
 	}
 
-	public UnaryOperatorNode(String operator, Operand operand) {
+	public UnaryOperatorNode(String operator) {
 		this.operator = Functions.validateOperator(operator);
-		this.operand = operand;
 	}
 	
 	@Override

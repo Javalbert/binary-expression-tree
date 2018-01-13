@@ -26,10 +26,8 @@ public class BinaryOperatorNode implements Operator {
 		this.rightOperand = rightOperand;
 	}
 	
-	public BinaryOperatorNode(String operator, Operand leftOperand, Operand rightOperand) {
+	public BinaryOperatorNode(String operator) {
 		this.operator = Functions.validateOperator(operator);
-		this.leftOperand = leftOperand;
-		this.rightOperand = rightOperand;
 	}
 	
 	@Override
