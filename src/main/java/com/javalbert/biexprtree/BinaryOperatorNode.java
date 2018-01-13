@@ -29,9 +29,10 @@ public class BinaryOperatorNode implements Operator {
 	public BinaryOperatorNode(String operator) {
 		this.operator = Functions.validateOperator(operator);
 	}
-	
+
 	@Override
 	public String toString() {
-		return "(left: " + leftOperand + ") " + operator + " (right: " + rightOperand + ")";
+		return "BinaryOperatorNode [operator=" + operator + ", leftOperand=" + leftOperand + ", rightOperand="
+				+ rightOperand + "]";
 	}
 }
