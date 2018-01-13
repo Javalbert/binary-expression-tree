@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class ExpressionTreeCreator {
 	private final Expression expr;
+	private BinaryOperatorPrecedence operatorPrecedence;
 	
 	// processing
 	//
@@ -17,12 +18,25 @@ public class ExpressionTreeCreator {
 	//
 	private Node rootNode;
 	
+	public BinaryOperatorPrecedence getOperatorPrecedence() {
+		return operatorPrecedence;
+	}
+	
+	public void setOperatorPrecedence(BinaryOperatorPrecedence operatorPrecedence) {
+		this.operatorPrecedence = operatorPrecedence;
+	}
+	
 	public Node getRootNode() {
 		return rootNode;
 	}
 	
 	public ExpressionTreeCreator(Expression expr) {
+		this(expr, null);
+	}
+	
+	public ExpressionTreeCreator(Expression expr, BinaryOperatorPrecedence operatorPrecedence) {
 		this.expr = Objects.requireNonNull(expr, "expr must not be null");
+		this.operatorPrecedence = operatorPrecedence;
 	}
 	
 	public ExpressionTreeCreator create() {
@@ -40,6 +54,22 @@ public class ExpressionTreeCreator {
 		return this;
 	}
 	
+	private void addOperandToNewBinaryNode(BinaryOperatorDefinition binaryOpDef, Operand operand) {
+		processDeque.removeLast();
+		
+		BinaryOperatorNode binaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
+		binaryNode.setLeftOperand(operand);
+		processDeque.addLast(binaryNode);
+	}
+	
+	private void addUnaryNodeToNewBinaryNode(BinaryOperatorDefinition binaryOpDef, UnaryOperatorNode node) {
+		processDeque.removeLast();
+		
+		BinaryOperatorNode binaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
+		binaryNode.setLeftOperand(new Operand(UnaryOperatorNode.class, node));
+		processDeque.addLast(binaryNode);
+	}
+	
 	private void cleanUp() {
 		currentNode = null;
 		nodeDeque = null;
@@ -50,21 +80,23 @@ public class ExpressionTreeCreator {
 		if (!(currentNode instanceof BinaryOperatorDefinition)) {
 			return false;
 		}
+		BinaryOperatorDefinition binaryOpDef = (BinaryOperatorDefinition)currentNode;
 		
 		Node node = processDeque.peekLast();
-		if (!(node instanceof Operand)) {
-			return false;
+		if (node instanceof BinaryOperatorNode) {
+			joinBinaryNodes(binaryOpDef, (BinaryOperatorNode)node);
+			return true;
+		} else if (node instanceof Operand) {
+			addOperandToNewBinaryNode(binaryOpDef, (Operand)node);
+			return true;
+		} else if (node instanceof UnaryOperatorNode) {
+			addUnaryNodeToNewBinaryNode(binaryOpDef, (UnaryOperatorNode)node);
+			return true;
 		}
-		processDeque.removeLast();
 		
-		BinaryOperatorDefinition binaryOpDef = (BinaryOperatorDefinition)currentNode;
-		BinaryOperatorNode binaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
-		binaryNode.setLeftOperand((Operand)node);
-		processDeque.addLast(binaryNode);
-		
-		return true;
+		return false;
 	}
-	
+
 	private boolean handleOperand() {
 		if (!(currentNode instanceof Operand)) {
 			return false;
@@ -88,13 +120,8 @@ public class ExpressionTreeCreator {
 	}
 	
 	private boolean handleOperator() {
-		if (handleBinaryOperatorDefinition()) {
-			return true;
-		} else if (handleUnaryOperatorDefinition()) {
-			return true;
-		}
-		
-		return false;
+		return handleBinaryOperatorDefinition()
+				|| handleUnaryOperatorDefinition();
 	}
 	
 	private boolean handleUnaryOperatorDefinition() {
@@ -107,6 +134,24 @@ public class ExpressionTreeCreator {
 		processDeque.addLast(unaryNode);
 		
 		return true;
+	}
+	
+	private void joinBinaryNodes(BinaryOperatorDefinition binaryOpDef, BinaryOperatorNode binaryNode) {
+		processDeque.removeLast();
+		
+		int newOperatorPriority = operatorPrecedence.getPriority(binaryOpDef.getOperator());
+		int binaryNodePriority = operatorPrecedence.getPriority(binaryNode.getOperator());
+
+		BinaryOperatorNode newBinaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
+		
+		if (newOperatorPriority >= binaryNodePriority) {
+			newBinaryNode.setLeftOperand(binaryNode.getRightOperand());
+			binaryNode.setRightOperand(new Operand(BinaryOperatorNode.class, newBinaryNode));
+		} else {
+			newBinaryNode.setLeftOperand(new Operand(BinaryOperatorNode.class, binaryNode));
+		}
+		
+		processDeque.addLast(newBinaryNode);
 	}
 	
 	private void popStack() {

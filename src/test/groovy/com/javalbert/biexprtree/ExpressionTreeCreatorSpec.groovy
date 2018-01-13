@@ -7,7 +7,7 @@ import static com.javalbert.biexprtree.Expression.*;
 class ExpressionTreeCreatorSpec extends Specification {
 	def 'Create binary node adding 1 and 2'() {
 		given: 'an Expression: 1 + 2'
-		Expression expr = newExpr().val((int)1).plus().val((int)2)
+		Expression expr = newExpr().val(1).plus().val(2)
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
@@ -38,5 +38,35 @@ class ExpressionTreeCreatorSpec extends Specification {
 		
 		and: 'operand is 2'
 		node.getOperand().value == 2
+	}
+	
+	def 'Modified binary operator precedence makes addition node a child of multiplication node'() {
+		given: 'an Expression: 1 + 2 * 3'
+		Expression expr = newExpr().val(1).plus().val(2).times().val(3)
+		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
+		
+		when: 'order of operations is modified so that addition is performed before multiplication'
+		BinaryOperatorPrecedence operatorPrecedence = new BinaryOperatorPrecedence()
+		operatorPrecedence.move('+', operatorPrecedence.getPriority('*'), false)
+		creator.setOperatorPrecedence(operatorPrecedence)
+		
+		and: 'expression tree is created'
+		Node node = creator.create().getRootNode()
+		
+		then: 'addition is child node of multiplication node'
+		node.getLeftOperand().getValue().getOperator() == '+'
+	}
+	
+	def 'Left operand is additive inverse unary operator for expression -1 + 2'() {
+		given: 'an Expression: -1 + 2'
+		Expression expr = newExpr().negate().val(1).plus().val(2)
+		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
+		
+		when: 'expression tree is created'
+		Node node = creator.create().getRootNode()
+		
+		then: 'left operand is additive inverse unary operator'
+		node.getLeftOperand().getValue() instanceof UnaryOperatorNode
+		node.getLeftOperand().getValue().getOperator() == '-'
 	}
 }

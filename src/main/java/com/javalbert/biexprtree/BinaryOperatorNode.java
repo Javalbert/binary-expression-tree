@@ -32,7 +32,32 @@ public class BinaryOperatorNode implements Operator {
 
 	@Override
 	public String toString() {
-		return "BinaryOperatorNode [operator=" + operator + ", leftOperand=" + leftOperand + ", rightOperand="
-				+ rightOperand + "]";
+		StringBuilder builder = new StringBuilder();
+
+		toStringOperandHelper(builder, leftOperand);
+		builder.append(" ")
+		.append(operator)
+		.append(" ");
+		toStringOperandHelper(builder, rightOperand);
+		
+		return builder.toString();
+	}
+	
+	private void toStringOperandHelper(StringBuilder builder, Operand operand) {
+		if (operand == null) {
+			return;
+		}
+		
+		if (operand.getValue() instanceof BinaryOperatorNode) {
+			builder.append("<binary-operator ")
+			.append(((Operator)operand.getValue()).getOperator())
+			.append(">");
+		} else if (operand.getValue() instanceof UnaryOperatorNode) {
+			builder.append("<unary-operator ")
+			.append(((Operator)operand.getValue()).getOperator())
+			.append(">");
+		} else {
+			builder.append(operand.getValue());
+		}
 	}
 }
