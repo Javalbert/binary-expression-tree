@@ -26,7 +26,7 @@ public class ExpressionTreeCreator {
 	}
 	
 	public void setOperatorPrecedence(BinaryOperatorPrecedence operatorPrecedence) {
-		this.operatorPrecedence = operatorPrecedence;
+		this.operatorPrecedence = operatorPrecedence != null ? operatorPrecedence : BinaryOperatorPrecedence.INSTANCE;
 	}
 	
 	public Node getRootNode() {
@@ -39,7 +39,7 @@ public class ExpressionTreeCreator {
 	
 	public ExpressionTreeCreator(Expression expr, BinaryOperatorPrecedence operatorPrecedence) {
 		this.expr = Objects.requireNonNull(expr, "expr must not be null");
-		this.operatorPrecedence = operatorPrecedence;
+		setOperatorPrecedence(operatorPrecedence);
 	}
 	
 	public ExpressionTreeCreator create() {
@@ -75,7 +75,7 @@ public class ExpressionTreeCreator {
 	
 	private BinaryOperatorNode getLowerPriorityNode(int priority) {
 		priority--;
-		if (priority < operatorPrecedence().getLowestPriority()) {
+		if (priority < operatorPrecedence.getLowestPriority()) {
 			return null;
 		}
 		
@@ -156,7 +156,7 @@ public class ExpressionTreeCreator {
 	
 	private void joinBinaryNodes(BinaryOperatorDefinition binaryOpDef) {
 		BinaryOperatorNode newBinaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
-		int newOperatorPriority = operatorPrecedence().getPriority(binaryOpDef.getOperator());
+		int newOperatorPriority = operatorPrecedence.getPriority(binaryOpDef.getOperator());
 		
 		BinaryOperatorNode binaryNode = getLowerPriorityNode(newOperatorPriority);
 		
@@ -174,13 +174,6 @@ public class ExpressionTreeCreator {
 		operatorWithMissingOperand = newBinaryNode;
 	}
 	
-	private BinaryOperatorPrecedence operatorPrecedence() {
-		if (operatorPrecedence == null) {
-			operatorPrecedence = new BinaryOperatorPrecedence();
-		}
-		return operatorPrecedence;
-	}
-	
 	private boolean popStack() {
 		if (nodeDeque.isEmpty()) {
 			return false;
@@ -195,7 +188,7 @@ public class ExpressionTreeCreator {
 	}
 	
 	private void updateOperatorByPrecedenceMap(BinaryOperatorNode binaryNode) {
-		int priority = operatorPrecedence().getPriority(binaryNode.getOperator());
+		int priority = operatorPrecedence.getPriority(binaryNode.getOperator());
 		operatorsByPrecedence.put(priority, binaryNode);
 	}
 }

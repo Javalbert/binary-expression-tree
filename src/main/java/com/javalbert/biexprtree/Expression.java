@@ -54,18 +54,8 @@ public class Expression {
 		return this;
 	}
 	
-	public Expression val(Boolean b) {
-		nodes.add(new Operand<>(Boolean.class, b));
-		return this;
-	}
-	
 	public Expression val(boolean b) {
 		nodes.add(new BooleanOperand(b));
-		return this;
-	}
-	
-	public Expression val(Character c) {
-		nodes.add(new Operand<>(Character.class, c));
 		return this;
 	}
 	
@@ -79,28 +69,13 @@ public class Expression {
 		return this;
 	}
 	
-	public Expression val(Double d) {
-		nodes.add(new Operand<>(Double.class, d));
-		return this;
-	}
-	
 	public Expression val(double d) {
 		nodes.add(new DoubleOperand(d));
 		return this;
 	}
 	
-	public Expression val(Float f) {
-		nodes.add(new Operand<>(Float.class, f));
-		return this;
-	}
-	
 	public Expression val(float f) {
 		nodes.add(new FloatOperand(f));
-		return this;
-	}
-	
-	public Expression val(Integer i) {
-		nodes.add(new Operand<>(Integer.class, i));
 		return this;
 	}
 	
@@ -116,11 +91,6 @@ public class Expression {
 	
 	public Expression val(LocalDateTime d) {
 		nodes.add(new Operand<>(LocalDateTime.class, d));
-		return this;
-	}
-	
-	public Expression val(Long l) {
-		nodes.add(new Operand<>(Long.class, l));
 		return this;
 	}
 	
@@ -168,11 +138,17 @@ public class Expression {
 	
 	private boolean toPrimitive(Object o, Class cls) {
 		switch (cls.getCanonicalName()) {
+			case "java.lang.Boolean":
 			case "boolean": val((boolean) o); return true;
+			case "java.lang.Character":
 			case "char": val((char) o); return true;
+			case "java.lang.Double":
 			case "double": val((double) o); return true;
+			case "java.lang.Float":
 			case "float": val((float) o); return true;
+			case "java.lang.Integer":
 			case "int": val((int) o); return true;
+			case "java.lang.Long":
 			case "long": val((long) o); return true;
 		}
 		return false;

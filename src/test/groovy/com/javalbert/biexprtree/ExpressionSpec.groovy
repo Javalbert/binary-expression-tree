@@ -8,17 +8,6 @@ import java.time.ZonedDateTime
 import spock.lang.Specification
 
 class ExpressionSpec extends Specification {
-	def 'Boolean (primitive wrapper) operand is added'() {
-		given: 'an Expression'
-		Expression expr = new Expression()
-		
-		when: 'Boolean primitive wrapper is added'
-		expr.val(true)
-		
-		then: 'Boolean operand was added'
-		expr.getNodes().get(0).getValue() == true
-	}
-	
 	def 'boolean primitive operand is added'() {
 		given: 'an Expression'
 		Expression expr = new Expression()
@@ -28,18 +17,6 @@ class ExpressionSpec extends Specification {
 		
 		then: 'boolean operand was added'
 		expr.getNodes().get(0).booleanValue == true
-	}
-	
-	def 'Character operand is added'() {
-		given: 'an Expression'
-		Expression expr = new Expression()
-		
-		when: 'Character is added'
-		Character ch = 'a' as char
-		expr.val(ch)
-		
-		then: 'Character operand was added'
-		expr.getNodes().get(0).getValue() == 'a' as char
 	}
 	
 	def 'char operand is added'() {
@@ -53,17 +30,6 @@ class ExpressionSpec extends Specification {
 		expr.getNodes().get(0).charValue == 'a' as char
 	}
 	
-	def 'Double (primitive wrapper) operand is added'() {
-		given: 'an Expression'
-		Expression expr = new Expression()
-		
-		when: 'Double primitive wrapper is added'
-		expr.val(1.23d)
-		
-		then: 'Double operand was added'
-		expr.getNodes().get(0).getValue() == 1.23d
-	}
-	
 	def 'double primitive operand is added'() {
 		given: 'an Expression'
 		Expression expr = new Expression()
@@ -73,17 +39,6 @@ class ExpressionSpec extends Specification {
 		
 		then: 'double operand was added'
 		expr.getNodes().get(0).doubleValue == 1.23d
-	}
-	
-	def 'Float (primitive wrapper) operand is added'() {
-		given: 'an Expression'
-		Expression expr = new Expression()
-		
-		when: 'Float primitive wrapper is added'
-		expr.val(1.23f)
-		
-		then: 'Float operand was added'
-		expr.getNodes().get(0).getValue() == 1.23f
 	}
 	
 	def 'float primitive operand is added'() {
@@ -97,17 +52,6 @@ class ExpressionSpec extends Specification {
 		expr.getNodes().get(0).floatValue == 1.23f
 	}
 	
-	def 'Integer operand is added'() {
-		given: 'an Expression'
-		Expression expr = new Expression()
-		
-		when: 'Integer is added'
-		expr.val(123)
-		
-		then: 'Integer operand was added'
-		expr.getNodes().get(0).getValue() == 123
-	}
-	
 	def 'int operand is added'() {
 		given: 'an Expression'
 		Expression expr = new Expression()
@@ -117,17 +61,6 @@ class ExpressionSpec extends Specification {
 		
 		then: 'int operand was added'
 		expr.getNodes().get(0).intValue == 123
-	}
-	
-	def 'Long (primitive wrapper) operand is added'() {
-		given: 'an Expression'
-		Expression expr = new Expression()
-		
-		when: 'Long primitive wrapper is added'
-		expr.val(123L)
-		
-		then: 'Long operand was added'
-		expr.getNodes().get(0).getValue() == 123L
 	}
 	
 	def 'long primitive operand is added'() {

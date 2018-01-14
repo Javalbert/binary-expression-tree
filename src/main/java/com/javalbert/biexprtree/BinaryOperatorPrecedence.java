@@ -88,6 +88,13 @@ public class BinaryOperatorPrecedence {
 		DEFAULT_PRIORITY_LIST = Collections.unmodifiableList(createDefaultPriorityList());
 		DEFAULT_OPERATOR_MAP = Collections.unmodifiableMap(createDefaultPriorityMap());
 	}
+
+	public static final BinaryOperatorPrecedence INSTANCE = new BinaryOperatorPrecedence() {
+		@Override
+		public BinaryOperatorPrecedence move(String operator, int priority, boolean siblings) {
+			throw new UnsupportedOperationException();
+		}
+	};
 	
 	private List<Set<String>> priorityList = DEFAULT_PRIORITY_LIST;
 	private Map<String, Integer> priorityMap = DEFAULT_OPERATOR_MAP;
