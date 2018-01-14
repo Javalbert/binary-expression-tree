@@ -51,7 +51,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		creator.setOperatorPrecedence(operatorPrecedence)
 		
 		and: 'expression tree is created'
-		Node node = creator.create().getRootNode()
+		BinaryOperatorNode node = creator.create().getRootNode()
 		
 		then: 'addition is child node of multiplication node'
 		node.getLeftOperand().getValue().getOperator() == '+'
@@ -63,7 +63,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
-		Node node = creator.create().getRootNode()
+		BinaryOperatorNode node = creator.create().getRootNode()
 		
 		then: 'left operand is additive inverse unary operator'
 		node.getLeftOperand().getValue() instanceof UnaryOperatorNode
@@ -79,9 +79,55 @@ class ExpressionTreeCreatorSpec extends Specification {
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
-		Node node = creator.create().getRootNode()
+		BinaryOperatorNode node = creator.create().getRootNode()
 		
 		then: 'left operand of root node is the addition operator node'
 		node.getLeftOperand().getValue().getOperator() == '+'
+	}
+	
+	def 'Root node\'s right operand is second multiplication, and second multiplication\'s left operand is first multiplication'() {
+		given: 'an Expression 1 + 2 * 3 * 4'
+		Expression expr = newExpr()
+		.val(1).plus().val(2)
+		.times().val(3)
+		.times().val(4)
+		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
+		
+		when: 'expression tree is created'
+		BinaryOperatorNode node = creator.create().getRootNode()
+		
+		then: 'root node\'s right operand is second multiplication * 4'
+		BinaryOperatorNode secondMultiplication = node.getRightOperand().getValue()
+		secondMultiplication.getOperator() == '*'
+		secondMultiplication.getRightOperand().getValue() == 4
+		
+		and: 'second multiplication\'s left operand is first multiplication 2 * 3'
+		BinaryOperatorNode firstMultiplication = secondMultiplication.getLeftOperand().getValue()
+		firstMultiplication.getOperator() == '*'
+		firstMultiplication.getLeftOperand().getValue() == 2
+		firstMultiplication.getRightOperand().getValue() == 3
+	}
+	
+	def 'Root node\'s right operand is multiplication, and multiplication\'s left operand is exponentiation'() {
+		given: 'an Expression 1 + 2 ^ 3 * 4'
+		Expression expr = newExpr()
+		.val(1).plus().val(2)
+		.powerOf().val(3)
+		.times().val(4)
+		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
+		
+		when: 'expression tree is created'
+		BinaryOperatorNode node = creator.create().getRootNode()
+		
+		then: 'root node\'s right operand is multiplication * 4'
+		BinaryOperatorNode multiplication = node.getRightOperand().getValue()
+		multiplication.getOperator() == '*'
+		multiplication.getRightOperand().getValue() == 4
+		
+		and: 'multiplication\'s left operand is exponentiation 2 ^ 3'
+		BinaryOperatorNode exponentiation = multiplication.getLeftOperand().getValue()
+		exponentiation.getOperator() == '^'
+		exponentiation.getLeftOperand().getValue() == 2
+		exponentiation.getRightOperand().getValue() == 3
 	}
 }
