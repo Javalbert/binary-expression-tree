@@ -113,6 +113,7 @@ public class ExpressionTreeCreator {
 			return true;
 		} else if (node instanceof UnaryOperatorNode) {
 			addOperandToNewBinaryNode(binaryOpDef, new Operand(UnaryOperatorNode.class, node));
+			return true;
 		}
 		
 		return false;

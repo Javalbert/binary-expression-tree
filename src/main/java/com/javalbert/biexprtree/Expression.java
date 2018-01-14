@@ -13,14 +13,10 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Expression {
-	public static Expression newExpr() {
-		return new Expression();
-	}
-	
 	private final List<Node> nodes = new ArrayList<>();
 	private final Map<String, Variable> variables = new HashMap<>();
 	
-	List<Node> getNodes() {
+	public List<Node> getNodes() {
 		return Collections.unmodifiableList(nodes);
 	}
 	
@@ -68,6 +64,16 @@ public class Expression {
 		return this;
 	}
 	
+	public Expression val(Character c) {
+		nodes.add(new Operand<>(Character.class, c));
+		return this;
+	}
+	
+	public Expression val(char c) {
+		nodes.add(new CharOperand(c));
+		return this;
+	}
+	
 	public Expression val(Date d) {
 		nodes.add(new Operand<>(Date.class, d));
 		return this;
@@ -80,16 +86,6 @@ public class Expression {
 	
 	public Expression val(double d) {
 		nodes.add(new DoubleOperand(d));
-		return this;
-	}
-	
-	public Expression val(Character c) {
-		nodes.add(new Operand<>(Character.class, c));
-		return this;
-	}
-	
-	public Expression val(char c) {
-		nodes.add(new CharOperand(c));
 		return this;
 	}
 	
