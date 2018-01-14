@@ -28,6 +28,6 @@ public class IntOperand extends Operand<Integer> {
 	
 	@Override
 	public String toString() {
-		return Integer.toString(intValue);
+		return "[IntOperand " + Integer.toString(intValue) + "]";
 	}
 }

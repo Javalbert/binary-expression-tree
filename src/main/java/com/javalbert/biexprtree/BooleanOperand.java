@@ -28,6 +28,6 @@ public class BooleanOperand extends Operand<Boolean> {
 	
 	@Override
 	public String toString() {
-		return String.valueOf(booleanValue);
+		return "[BooleanOperand " + String.valueOf(booleanValue) + "]";
 	}
 }

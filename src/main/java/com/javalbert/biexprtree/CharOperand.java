@@ -28,6 +28,6 @@ public class CharOperand extends Operand<Character> {
 	
 	@Override
 	public String toString() {
-		return String.valueOf(charValue);
+		return "[CharOperand " + String.valueOf(charValue) + "]";
 	}
 }

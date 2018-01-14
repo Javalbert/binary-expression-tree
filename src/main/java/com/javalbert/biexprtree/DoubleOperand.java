@@ -28,6 +28,6 @@ public class DoubleOperand extends Operand<Double> {
 	
 	@Override
 	public String toString() {
-		return Double.toString(doubleValue);
+		return "[DoubleOperand " + Double.toString(doubleValue) + "]";
 	}
 }

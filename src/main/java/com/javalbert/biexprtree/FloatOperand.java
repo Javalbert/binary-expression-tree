@@ -28,6 +28,6 @@ public class FloatOperand extends Operand<Float> {
 	
 	@Override
 	public String toString() {
-		return Float.toString(floatValue);
+		return "[FloatOperand " + Float.toString(floatValue) + "]";
 	}
 }

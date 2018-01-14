@@ -91,6 +91,10 @@ public class BinaryOperatorPrecedence {
 	
 	private List<Set<String>> priorityList = DEFAULT_PRIORITY_LIST;
 	private Map<String, Integer> priorityMap = DEFAULT_OPERATOR_MAP;
+
+	public int getLowestPriority() {
+		return Math.negateExact(priorityList.size() - 1);
+	}
 	
 	public int getPriority(String operator) {
 		return Math.negateExact(priorityMap.get(operator));

@@ -28,6 +28,6 @@ public class LongOperand extends Operand<Long> {
 	
 	@Override
 	public String toString() {
-		return Long.toString(longValue);
+		return "[LongOperand " + Long.toString(longValue) + "]";
 	}
 }

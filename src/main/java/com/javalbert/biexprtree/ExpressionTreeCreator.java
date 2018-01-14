@@ -2,6 +2,8 @@ package com.javalbert.biexprtree;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 public class ExpressionTreeCreator {
@@ -12,7 +14,8 @@ public class ExpressionTreeCreator {
 	//
 	private Node currentNode;
 	private Deque<Node> nodeDeque;
-	private Deque<Node> processDeque;
+	private Map<Integer, BinaryOperatorNode> operatorsByPrecedence;
+	private Operator operatorWithMissingOperand;
 	
 	// output
 	//
@@ -40,40 +43,59 @@ public class ExpressionTreeCreator {
 	}
 	
 	public ExpressionTreeCreator create() {
-		setupStacks();
+		setupCreateProcess();
 		
-		while (!nodeDeque.isEmpty() || processDeque.size() != 1) {
-			popStack();
-			
-			if (handleOperand()) {;}
-			else if (handleOperator()) {;}
+		while (popStack() &&
+				(handleOperand()
+				|| handleBinaryOperatorDefinition()
+				|| handleUnaryOperatorDefinition())
+				) {
+			; // empty while loop body
 		}
 		
-		rootNode = processDeque.removeLast();
 		cleanUp();
 		return this;
 	}
 	
 	private void addOperandToNewBinaryNode(BinaryOperatorDefinition binaryOpDef, Operand operand) {
-		processDeque.removeLast();
-		
 		BinaryOperatorNode binaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
 		binaryNode.setLeftOperand(operand);
-		processDeque.addLast(binaryNode);
-	}
-	
-	private void addUnaryNodeToNewBinaryNode(BinaryOperatorDefinition binaryOpDef, UnaryOperatorNode node) {
-		processDeque.removeLast();
+		updateOperatorByPrecedenceMap(binaryNode);
+		operatorWithMissingOperand = binaryNode;
 		
-		BinaryOperatorNode binaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
-		binaryNode.setLeftOperand(new Operand(UnaryOperatorNode.class, node));
-		processDeque.addLast(binaryNode);
+		rootNode = binaryNode;
 	}
 	
 	private void cleanUp() {
 		currentNode = null;
 		nodeDeque = null;
-		processDeque = null;
+		operatorsByPrecedence = null;
+		operatorWithMissingOperand = null;
+	}
+	
+	private BinaryOperatorNode getLowerPriorityNode(int priority) {
+		priority--;
+		if (priority < operatorPrecedence().getLowestPriority()) {
+			return null;
+		}
+		
+		BinaryOperatorNode binaryNode = operatorsByPrecedence.get(priority);
+		if (binaryNode != null) {
+			return binaryNode;
+		}
+		return getLowerPriorityNode(priority);
+	}
+	
+	private BinaryOperatorNode getSameOrHigherPriorityNode(int priority) {
+		if (priority > 0) {
+			return null;
+		}
+		
+		BinaryOperatorNode binaryNode = operatorsByPrecedence.get(priority);
+		if (binaryNode != null) {
+			return binaryNode;
+		}
+		return getSameOrHigherPriorityNode(priority + 1);
 	}
 	
 	private boolean handleBinaryOperatorDefinition() {
@@ -82,16 +104,15 @@ public class ExpressionTreeCreator {
 		}
 		BinaryOperatorDefinition binaryOpDef = (BinaryOperatorDefinition)currentNode;
 		
-		Node node = processDeque.peekLast();
+		Node node = rootNode;
 		if (node instanceof BinaryOperatorNode) {
-			joinBinaryNodes(binaryOpDef, (BinaryOperatorNode)node);
+			joinBinaryNodes(binaryOpDef);
 			return true;
 		} else if (node instanceof Operand) {
-			addOperandToNewBinaryNode(binaryOpDef, (Operand)node);
+			addOperandToNewBinaryNode(binaryOpDef, (Operand) node);
 			return true;
 		} else if (node instanceof UnaryOperatorNode) {
-			addUnaryNodeToNewBinaryNode(binaryOpDef, (UnaryOperatorNode)node);
-			return true;
+			addOperandToNewBinaryNode(binaryOpDef, new Operand(UnaryOperatorNode.class, node));
 		}
 		
 		return false;
@@ -100,28 +121,22 @@ public class ExpressionTreeCreator {
 	private boolean handleOperand() {
 		if (!(currentNode instanceof Operand)) {
 			return false;
-		} else if (processDeque.isEmpty()) {
-			processDeque.addLast(currentNode);
+		} else if (rootNode == null) {
+			rootNode = currentNode;
 			return true;
 		}
 		
 		Operand operand = (Operand)currentNode;
 		
-		Operator operatorNode = (Operator)processDeque.peekLast();
-		if (operatorNode instanceof BinaryOperatorNode) {
-			BinaryOperatorNode binaryNode = (BinaryOperatorNode)operatorNode;
+		if (operatorWithMissingOperand instanceof BinaryOperatorNode) {
+			BinaryOperatorNode binaryNode = (BinaryOperatorNode)operatorWithMissingOperand;
 			binaryNode.setRightOperand(operand);
-		} else if (operatorNode instanceof UnaryOperatorNode) {
-			UnaryOperatorNode unaryNode = (UnaryOperatorNode)operatorNode;
+		} else if (operatorWithMissingOperand instanceof UnaryOperatorNode) {
+			UnaryOperatorNode unaryNode = (UnaryOperatorNode)operatorWithMissingOperand;
 			unaryNode.setOperand(operand);
 		}
 		
 		return true;
-	}
-	
-	private boolean handleOperator() {
-		return handleBinaryOperatorDefinition()
-				|| handleUnaryOperatorDefinition();
 	}
 	
 	private boolean handleUnaryOperatorDefinition() {
@@ -131,35 +146,55 @@ public class ExpressionTreeCreator {
 		
 		UnaryOperatorDefinition unaryOpDef = (UnaryOperatorDefinition)currentNode;
 		UnaryOperatorNode unaryNode = new UnaryOperatorNode(unaryOpDef.getOperator());
-		processDeque.addLast(unaryNode);
+		
+		operatorWithMissingOperand = unaryNode;
+		rootNode = unaryNode;
 		
 		return true;
 	}
 	
-	private void joinBinaryNodes(BinaryOperatorDefinition binaryOpDef, BinaryOperatorNode binaryNode) {
-		processDeque.removeLast();
-		
-		int newOperatorPriority = operatorPrecedence.getPriority(binaryOpDef.getOperator());
-		int binaryNodePriority = operatorPrecedence.getPriority(binaryNode.getOperator());
-
+	private void joinBinaryNodes(BinaryOperatorDefinition binaryOpDef) {
 		BinaryOperatorNode newBinaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
+		int newOperatorPriority = operatorPrecedence().getPriority(binaryOpDef.getOperator());
 		
-		if (newOperatorPriority >= binaryNodePriority) {
+		BinaryOperatorNode binaryNode = getLowerPriorityNode(newOperatorPriority);
+		
+		if (binaryNode != null) {
 			newBinaryNode.setLeftOperand(binaryNode.getRightOperand());
 			binaryNode.setRightOperand(new Operand(BinaryOperatorNode.class, newBinaryNode));
+			
+			rootNode = binaryNode;
 		} else {
+			binaryNode = getSameOrHigherPriorityNode(newOperatorPriority);
 			newBinaryNode.setLeftOperand(new Operand(BinaryOperatorNode.class, binaryNode));
+			rootNode = newBinaryNode;
 		}
 		
-		processDeque.addLast(newBinaryNode);
+		operatorWithMissingOperand = newBinaryNode;
 	}
 	
-	private void popStack() {
-		currentNode = !nodeDeque.isEmpty() ? nodeDeque.removeFirst() : processDeque.removeFirst();
+	private BinaryOperatorPrecedence operatorPrecedence() {
+		if (operatorPrecedence == null) {
+			operatorPrecedence = new BinaryOperatorPrecedence();
+		}
+		return operatorPrecedence;
 	}
 	
-	private void setupStacks() {
+	private boolean popStack() {
+		if (nodeDeque.isEmpty()) {
+			return false;
+		}
+		currentNode = nodeDeque.removeFirst();
+		return true;
+	}
+	
+	private void setupCreateProcess() {
 		nodeDeque = new ArrayDeque<>(expr.getNodes());
-		processDeque = new ArrayDeque<>(3);
+		operatorsByPrecedence = new HashMap<>();
+	}
+	
+	private void updateOperatorByPrecedenceMap(BinaryOperatorNode binaryNode) {
+		int priority = operatorPrecedence().getPriority(binaryNode.getOperator());
+		operatorsByPrecedence.put(priority, binaryNode);
 	}
 }

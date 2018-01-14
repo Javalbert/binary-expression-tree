@@ -18,10 +18,10 @@ class ExpressionTreeCreatorSpec extends Specification {
 		node.getOperator() == '+'
 		
 		and: 'left operand is 1'
-		node.getLeftOperand().value == 1
+		node.getLeftOperand().getValue() == 1
 		
 		and: 'right operand is 2'
-		node.getRightOperand().value == 2
+		node.getRightOperand().getValue() == 2
 	}
 	
 	def 'Create unary node -2'() {
@@ -37,7 +37,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		node.getOperator() == '-'
 		
 		and: 'operand is 2'
-		node.getOperand().value == 2
+		node.getOperand().getValue() == 2
 	}
 	
 	def 'Modified binary operator precedence makes addition node a child of multiplication node'() {
@@ -68,5 +68,20 @@ class ExpressionTreeCreatorSpec extends Specification {
 		then: 'left operand is additive inverse unary operator'
 		node.getLeftOperand().getValue() instanceof UnaryOperatorNode
 		node.getLeftOperand().getValue().getOperator() == '-'
+	}
+	
+	def 'Root node subtraction operator\'s left operand is addition operator for expression 1 + 2 * 3 - 4'() {
+		given: 'an Expression 1 + 2 * 3 - 4'
+		Expression expr = newExpr()
+		.val(1).plus().val(2)
+		.times().val(3)
+		.minus().val(4)
+		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
+		
+		when: 'expression tree is created'
+		Node node = creator.create().getRootNode()
+		
+		then: 'left operand of root node is the addition operator node'
+		node.getLeftOperand().getValue().getOperator() == '+'
 	}
 }

@@ -25,6 +25,16 @@ public class Operand<T> implements Node {
 	
 	@Override
 	public String toString() {
-		return value != null ? value.toString() : "null";
+		StringBuilder builder = new StringBuilder("[Operand ");
+		
+		boolean quote = String.class.isAssignableFrom(operandClass) && value != null;
+		if (quote) {
+			builder.append("\"");
+		}
+		builder.append(value);
+		if (quote) {
+			builder.append("\"");
+		}
+		return builder.append("]").toString();
 	}
 }
