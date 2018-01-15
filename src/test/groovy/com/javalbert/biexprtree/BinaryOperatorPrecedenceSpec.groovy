@@ -19,18 +19,18 @@ class BinaryOperatorPrecedenceSpec extends Specification {
 		operatorPrecedence.getPriority('+') == operatorPrecedence.getPriority('*')
 	}
 	
-	def 'Move power ^ down to the same priority as multiplication *'() {
+	def 'Move power ** down to the same priority as multiplication *'() {
 		given: 'a BinaryOperatorPrecendence'
 		BinaryOperatorPrecedence operatorPrecedence = new BinaryOperatorPrecedence()
 		
 		expect: 'by default, power has higher priority than multiplication'
-		operatorPrecedence.getPriority('^') > operatorPrecedence.getPriority('*')
+		operatorPrecedence.getPriority('**') > operatorPrecedence.getPriority('*')
 		
 		when: 'power is moved down to multiplication'
-		operatorPrecedence.move('^', operatorPrecedence.getPriority('*'))
+		operatorPrecedence.move('**', operatorPrecedence.getPriority('*'))
 		
 		then: 'power has the same priority as multiplication'
-		operatorPrecedence.getPriority('^') == operatorPrecedence.getPriority('*')
+		operatorPrecedence.getPriority('**') == operatorPrecedence.getPriority('*')
 	}
 	
 	def 'Move priorities of multiplication\'s siblings down, and division/modulo will have less priority than multiplication'() {

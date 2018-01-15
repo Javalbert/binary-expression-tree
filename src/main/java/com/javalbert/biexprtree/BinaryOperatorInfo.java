@@ -3,35 +3,63 @@ package com.javalbert.biexprtree;
 import java.util.Objects;
 
 public class BinaryOperatorInfo<T, U> implements OperatorInfo {
-	private final String operator;
-	private final Class<T> aClass;
-	private final Class<U> bClass;
+	private String operator;
+	private Class<T> leftOperandClass;
+	private Class<U> rightOperandClass;
+	private boolean commutative;
 	
 	@Override
 	public String getOperator() {
 		return operator;
 	}
 	
-	public Class<T> getAClass() {
-		return aClass;
+	void setOperator(String operator) {
+		this.operator = operator;
 	}
 	
-	public Class<U> getBClass() {
-		return bClass;
+	public Class<T> getLeftOperandClass() {
+		return leftOperandClass;
+	}
+	
+	void setLeftOperandClass(Class<T> leftOperandClass) {
+		this.leftOperandClass = leftOperandClass;
+	}
+	
+	public Class<U> getRightOperandClass() {
+		return rightOperandClass;
+	}
+	
+	void setRightOperandClass(Class<U> rightOperandClass) {
+		this.rightOperandClass = rightOperandClass;
+	}
+	
+	public boolean isCommutative() {
+		return commutative;
+	}
+	
+	BinaryOperatorInfo() {
+		this.operator = null;
+		this.leftOperandClass = null;
+		this.rightOperandClass = null;
 	}
 
-	public BinaryOperatorInfo(String operator, Class<T> aClass, Class<U> bClass) {
+	public BinaryOperatorInfo(
+			String operator,
+			Class<T> leftOperandClass,
+			Class<U> rightOperandClass,
+			boolean commutative) {
 		this.operator = Functions.validateOperator(operator);
-		this.aClass = Objects.requireNonNull(aClass, "aClass must not be null");
-		this.bClass = Objects.requireNonNull(bClass, "bClass must not be null");
+		this.leftOperandClass = Objects.requireNonNull(leftOperandClass, "leftOperandClass must not be null");
+		this.rightOperandClass = Objects.requireNonNull(rightOperandClass, "rightOperandClass must not be null");
+		this.commutative = commutative;
 	}
 	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((aClass == null) ? 0 : aClass.hashCode());
-		result = prime * result + ((bClass == null) ? 0 : bClass.hashCode());
+		result = prime * result + ((leftOperandClass == null) ? 0 : leftOperandClass.hashCode());
+		result = prime * result + ((rightOperandClass == null) ? 0 : rightOperandClass.hashCode());
 		result = prime * result + ((operator == null) ? 0 : operator.hashCode());
 		return result;
 	}
@@ -45,15 +73,15 @@ public class BinaryOperatorInfo<T, U> implements OperatorInfo {
 		if (getClass() != obj.getClass())
 			return false;
 		BinaryOperatorInfo other = (BinaryOperatorInfo) obj;
-		if (aClass == null) {
-			if (other.aClass != null)
+		if (leftOperandClass == null) {
+			if (other.leftOperandClass != null)
 				return false;
-		} else if (!aClass.equals(other.aClass))
+		} else if (!leftOperandClass.equals(other.leftOperandClass))
 			return false;
-		if (bClass == null) {
-			if (other.bClass != null)
+		if (rightOperandClass == null) {
+			if (other.rightOperandClass != null)
 				return false;
-		} else if (!bClass.equals(other.bClass))
+		} else if (!rightOperandClass.equals(other.rightOperandClass))
 			return false;
 		if (operator == null) {
 			if (other.operator != null)

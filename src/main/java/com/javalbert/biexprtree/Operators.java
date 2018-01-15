@@ -8,7 +8,7 @@ public final class Operators {
 	public static final BinaryOperatorDefinition MULTIPLY = new BinaryOperatorDefinition("*");
 	public static final BinaryOperatorDefinition DIVIDE = new BinaryOperatorDefinition("/");
 	public static final BinaryOperatorDefinition MODULO = new BinaryOperatorDefinition("%");
-	public static final BinaryOperatorDefinition POWER = new BinaryOperatorDefinition("^");
+	public static final BinaryOperatorDefinition POWER = new BinaryOperatorDefinition("**");
 	public static final UnaryOperatorDefinition NEGATE = new UnaryOperatorDefinition("-");
 	
 	// Boolean operators

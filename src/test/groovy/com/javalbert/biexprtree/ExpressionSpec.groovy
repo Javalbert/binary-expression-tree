@@ -361,8 +361,8 @@ class ExpressionSpec extends Specification {
 		when: 'exponentiation operator is added'
 		expr.powerOf()
 		
-		then: '^ operator was added'
-		expr.getNodes().get(0).getOperator() == '^'
+		then: '** operator was added'
+		expr.getNodes().get(0).getOperator() == '**'
 	}
 	
 	def 'Additive inverse operator is added'() {

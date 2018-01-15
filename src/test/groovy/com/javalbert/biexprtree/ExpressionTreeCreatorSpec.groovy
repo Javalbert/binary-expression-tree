@@ -107,7 +107,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 	}
 	
 	def 'Root node\'s right operand is multiplication, and multiplication\'s left operand is exponentiation'() {
-		given: 'an Expression 1 + 2 ^ 3 * 4'
+		given: 'an Expression 1 + 2 ** 3 * 4'
 		Expression expr = new Expression()
 		.val(1).plus().val(2)
 		.powerOf().val(3)
@@ -122,9 +122,9 @@ class ExpressionTreeCreatorSpec extends Specification {
 		multiplication.getOperator() == '*'
 		multiplication.getRightOperand().getValue() == 4
 		
-		and: 'multiplication\'s left operand is exponentiation 2 ^ 3'
+		and: 'multiplication\'s left operand is exponentiation 2 ** 3'
 		BinaryOperatorNode exponentiation = multiplication.getLeftOperand().getValue()
-		exponentiation.getOperator() == '^'
+		exponentiation.getOperator() == '**'
 		exponentiation.getLeftOperand().getValue() == 2
 		exponentiation.getRightOperand().getValue() == 3
 	}
