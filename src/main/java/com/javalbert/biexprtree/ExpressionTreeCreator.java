@@ -137,6 +137,8 @@ public class ExpressionTreeCreator {
 			unaryNode.setOperand(operand);
 		}
 		
+		operatorWithMissingOperand = null;
+		
 		return true;
 	}
 	
@@ -148,9 +150,15 @@ public class ExpressionTreeCreator {
 		UnaryOperatorDefinition unaryOpDef = (UnaryOperatorDefinition)currentNode;
 		UnaryOperatorNode unaryNode = new UnaryOperatorNode(unaryOpDef.getOperator());
 		
-		operatorWithMissingOperand = unaryNode;
-		rootNode = unaryNode;
+		if (operatorWithMissingOperand instanceof BinaryOperatorNode) {
+			((BinaryOperatorNode)operatorWithMissingOperand)
+			.setRightOperand(new Operand<>(UnaryOperatorNode.class, unaryNode));
+		}
 		
+		operatorWithMissingOperand = unaryNode;
+		if (rootNode == null) {
+			rootNode = unaryNode;
+		}
 		return true;
 	}
 	

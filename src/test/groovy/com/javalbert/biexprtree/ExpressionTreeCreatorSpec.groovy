@@ -128,4 +128,16 @@ class ExpressionTreeCreatorSpec extends Specification {
 		exponentiation.getLeftOperand().getValue() == 2
 		exponentiation.getRightOperand().getValue() == 3
 	}
+	
+	def 'Right operand is additive inverse for expression 1 + -2'() {
+		given: 'an Expression 1 + -2'
+		Expression expr = new Expression().val(1).plus().negate().val(2)
+		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
+		
+		when: 'expression tree is created'
+		BinaryOperatorNode node = creator.create().getRootNode()
+		
+		then: 'right operand is additive inverse'
+		node.getRightOperand().getValue().getOperator() == '-'
+	}
 }

@@ -23,6 +23,6 @@ public class UnaryOperatorNode implements Operator {
 	
 	@Override
 	public String toString() {
-		return operator + operand.getValue();
+		return operand != null ? operator + operand.getValue() : operator;
 	}
 }
