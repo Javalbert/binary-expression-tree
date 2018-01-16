@@ -2,17 +2,8 @@ package com.javalbert.biexprtree;
 
 import java.math.BigDecimal;
 
-public class DefaultFunctions extends FunctionRegistry {
+class DefaultFunctions extends FunctionRegistry {
 	public static final DefaultFunctions INSTANCE = new DefaultFunctions();
-	
-	public FunctionRegistry newRegistry() {
-		FunctionRegistry reg = new FunctionRegistry();
-		INSTANCE.getFunctions()
-		.values()
-		.stream()
-		.forEach(reg::register);
-		return reg;
-	}
 	
 	private DefaultFunctions() {
 		// add - same types

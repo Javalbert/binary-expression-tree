@@ -13,34 +13,16 @@ public class BinaryOperatorInfo<T, U> implements OperatorInfo {
 		return operator;
 	}
 	
-	void setOperator(String operator) {
-		this.operator = operator;
-	}
-	
 	public Class<T> getLeftOperandClass() {
 		return leftOperandClass;
-	}
-	
-	void setLeftOperandClass(Class<T> leftOperandClass) {
-		this.leftOperandClass = leftOperandClass;
 	}
 	
 	public Class<U> getRightOperandClass() {
 		return rightOperandClass;
 	}
 	
-	void setRightOperandClass(Class<U> rightOperandClass) {
-		this.rightOperandClass = rightOperandClass;
-	}
-	
 	public boolean isCommutative() {
 		return commutative;
-	}
-	
-	BinaryOperatorInfo() {
-		this.operator = null;
-		this.leftOperandClass = null;
-		this.rightOperandClass = null;
 	}
 
 	public BinaryOperatorInfo(
@@ -52,6 +34,18 @@ public class BinaryOperatorInfo<T, U> implements OperatorInfo {
 		this.leftOperandClass = Objects.requireNonNull(leftOperandClass, "leftOperandClass must not be null");
 		this.rightOperandClass = Objects.requireNonNull(rightOperandClass, "rightOperandClass must not be null");
 		this.commutative = commutative;
+	}
+	
+	BinaryOperatorInfo() {
+		this.operator = null;
+		this.leftOperandClass = null;
+		this.rightOperandClass = null;
+	}
+
+	void forHash(BinaryOperatorNode binaryNode) {
+		operator = binaryNode.getOperator();
+		leftOperandClass = binaryNode.getLeftOperand().getOperandClass();
+		rightOperandClass = binaryNode.getRightOperand().getOperandClass();
 	}
 	
 	@Override

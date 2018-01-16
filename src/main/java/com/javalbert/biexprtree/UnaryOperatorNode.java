@@ -23,6 +23,6 @@ public class UnaryOperatorNode implements Operator {
 	
 	@Override
 	public String toString() {
-		return operator + operand;
+		return operator + operand.getValue();
 	}
 }

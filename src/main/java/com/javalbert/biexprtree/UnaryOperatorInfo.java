@@ -3,8 +3,8 @@ package com.javalbert.biexprtree;
 import java.util.Objects;
 
 public class UnaryOperatorInfo<T> implements OperatorInfo {
-	private final String operator;
-	private final Class<T> operandClass;
+	private String operator;
+	private Class<T> operandClass;
 	
 	@Override
 	public String getOperator() {
@@ -18,6 +18,16 @@ public class UnaryOperatorInfo<T> implements OperatorInfo {
 	public UnaryOperatorInfo(String operator, Class<T> operandClass) {
 		this.operator = Functions.validateOperator(operator);
 		this.operandClass = Objects.requireNonNull(operandClass, "operandClass must not be null");
+	}
+	
+	UnaryOperatorInfo() {
+		operator = null;
+		operandClass = null;
+	}
+
+	void forHash(UnaryOperatorNode unaryNode) {
+		operator = unaryNode.getOperator();
+		operandClass = unaryNode.getOperand().getOperandClass();
 	}
 
 	@Override
