@@ -6,7 +6,6 @@ public class BinaryOperatorInfo<T, U> implements OperatorInfo {
 	private String operator;
 	private Class<T> leftOperandClass;
 	private Class<U> rightOperandClass;
-	private boolean commutative;
 	
 	@Override
 	public String getOperator() {
@@ -21,19 +20,13 @@ public class BinaryOperatorInfo<T, U> implements OperatorInfo {
 		return rightOperandClass;
 	}
 	
-	public boolean isCommutative() {
-		return commutative;
-	}
-
 	public BinaryOperatorInfo(
 			String operator,
 			Class<T> leftOperandClass,
-			Class<U> rightOperandClass,
-			boolean commutative) {
+			Class<U> rightOperandClass) {
 		this.operator = Functions.validateOperator(operator);
 		this.leftOperandClass = Objects.requireNonNull(leftOperandClass, "leftOperandClass must not be null");
 		this.rightOperandClass = Objects.requireNonNull(rightOperandClass, "rightOperandClass must not be null");
-		this.commutative = commutative;
 	}
 	
 	BinaryOperatorInfo() {

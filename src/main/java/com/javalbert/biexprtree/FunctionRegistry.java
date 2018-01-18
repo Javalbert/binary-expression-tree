@@ -3,8 +3,6 @@ package com.javalbert.biexprtree;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class FunctionRegistry {
 	private final Map<OperatorInfo, Func> functions = new HashMap<>();
@@ -13,14 +11,12 @@ public class FunctionRegistry {
 		return Collections.unmodifiableMap(functions);
 	}
 	
-	public BiFunction getBinaryFunction(BinaryOperatorInfo operatorInfo) {
-		BinaryFunc func = (BinaryFunc)functions.get(operatorInfo);
-		return func != null ? func.getFunction() : null;
+	public BinaryFunc getBinaryFunc(BinaryOperatorInfo operatorInfo) {
+		return (BinaryFunc)functions.get(operatorInfo);
 	}
 	
-	public Function getUnaryFunction(UnaryOperatorInfo operatorInfo) {
-		UnaryFunc func = (UnaryFunc)functions.get(operatorInfo);
-		return func != null ? func.getFunction() : null;
+	public UnaryFunc getUnaryFunc(UnaryOperatorInfo operatorInfo) {
+		return (UnaryFunc)functions.get(operatorInfo);
 	}
 	
 	public <T, U> void register(BinaryFunc<T, U> bifunc) {

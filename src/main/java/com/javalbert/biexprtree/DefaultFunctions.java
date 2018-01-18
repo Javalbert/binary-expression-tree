@@ -9,556 +9,556 @@ class DefaultFunctions extends FunctionRegistry {
 		// add - same types
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", BigDecimal.class, BigDecimal.class, true),
+				new BinaryOperatorInfo<>("+", BigDecimal.class, BigDecimal.class),
 				this::addBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", double.class, double.class, true),
+				new BinaryOperatorInfo<>("+", double.class, double.class),
 				this::addDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", float.class, float.class, true),
+				new BinaryOperatorInfo<>("+", float.class, float.class),
 				this::addFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", int.class, int.class, true),
+				new BinaryOperatorInfo<>("+", int.class, int.class),
 				this::addInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", long.class, long.class, true),
+				new BinaryOperatorInfo<>("+", long.class, long.class),
 				this::addLong
 				));
 		
 		// add - type promotions
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", BigDecimal.class, double.class, true),
+				new BinaryOperatorInfo<>("+", BigDecimal.class, double.class),
 				this::addBigDecimalAndDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", BigDecimal.class, float.class, true),
+				new BinaryOperatorInfo<>("+", BigDecimal.class, float.class),
 				this::addBigDecimalAndFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", BigDecimal.class, int.class, true),
+				new BinaryOperatorInfo<>("+", BigDecimal.class, int.class),
 				this::addBigDecimalAndInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", BigDecimal.class, long.class, true),
+				new BinaryOperatorInfo<>("+", BigDecimal.class, long.class),
 				this::addBigDecimalAndLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", double.class, float.class, true),
+				new BinaryOperatorInfo<>("+", double.class, float.class),
 				this::addDoubleAndFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", double.class, int.class, true),
+				new BinaryOperatorInfo<>("+", double.class, int.class),
 				this::addDoubleAndInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", double.class, long.class, true),
+				new BinaryOperatorInfo<>("+", double.class, long.class),
 				this::addDoubleAndLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", float.class, int.class, true),
+				new BinaryOperatorInfo<>("+", float.class, int.class),
 				this::addFloatAndInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", float.class, long.class, true),
+				new BinaryOperatorInfo<>("+", float.class, long.class),
 				this::addFloatAndLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("+", long.class, int.class, true),
+				new BinaryOperatorInfo<>("+", long.class, int.class),
 				this::addLongAndInt
 				));
 		
 		// subtract - same types
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", BigDecimal.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("-", BigDecimal.class, BigDecimal.class),
 				this::subtractBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", double.class, double.class, false),
+				new BinaryOperatorInfo<>("-", double.class, double.class),
 				this::subtractDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", float.class, float.class, false),
+				new BinaryOperatorInfo<>("-", float.class, float.class),
 				this::subtractFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", int.class, int.class, false),
+				new BinaryOperatorInfo<>("-", int.class, int.class),
 				this::subtractInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", long.class, long.class, false),
+				new BinaryOperatorInfo<>("-", long.class, long.class),
 				this::subtractLong
 				));
 		
 		// subtract - type promotions
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", BigDecimal.class, double.class, false),
+				new BinaryOperatorInfo<>("-", BigDecimal.class, double.class),
 				this::subtractDoubleFromBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", BigDecimal.class, float.class, false),
+				new BinaryOperatorInfo<>("-", BigDecimal.class, float.class),
 				this::subtractFloatFromBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", BigDecimal.class, int.class, false),
+				new BinaryOperatorInfo<>("-", BigDecimal.class, int.class),
 				this::subtractIntFromBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", BigDecimal.class, long.class, false),
+				new BinaryOperatorInfo<>("-", BigDecimal.class, long.class),
 				this::subtractLongFromBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", double.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("-", double.class, BigDecimal.class),
 				this::subtractBigDecimalFromDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", double.class, float.class, false),
+				new BinaryOperatorInfo<>("-", double.class, float.class),
 				this::subtractFloatFromDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", double.class, int.class, false),
+				new BinaryOperatorInfo<>("-", double.class, int.class),
 				this::subtractIntFromDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", double.class, long.class, false),
+				new BinaryOperatorInfo<>("-", double.class, long.class),
 				this::subtractLongFromDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", float.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("-", float.class, BigDecimal.class),
 				this::subtractBigDecimalFromFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", float.class, double.class, false),
+				new BinaryOperatorInfo<>("-", float.class, double.class),
 				this::subtractDoubleFromFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", float.class, int.class, false),
+				new BinaryOperatorInfo<>("-", float.class, int.class),
 				this::subtractIntFromFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", float.class, long.class, false),
+				new BinaryOperatorInfo<>("-", float.class, long.class),
 				this::subtractLongFromFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", int.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("-", int.class, BigDecimal.class),
 				this::subtractBigDecimalFromInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", int.class, double.class, false),
+				new BinaryOperatorInfo<>("-", int.class, double.class),
 				this::subtractDoubleFromInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", int.class, float.class, false),
+				new BinaryOperatorInfo<>("-", int.class, float.class),
 				this::subtractFloatFromInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", int.class, long.class, false),
+				new BinaryOperatorInfo<>("-", int.class, long.class),
 				this::subtractLongFromInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", long.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("-", long.class, BigDecimal.class),
 				this::subtractBigDecimalFromLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", long.class, double.class, false),
+				new BinaryOperatorInfo<>("-", long.class, double.class),
 				this::subtractDoubleFromLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", long.class, float.class, false),
+				new BinaryOperatorInfo<>("-", long.class, float.class),
 				this::subtractFloatFromLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("-", long.class, int.class, false),
+				new BinaryOperatorInfo<>("-", long.class, int.class),
 				this::subtractIntFromLong
 				));
 		
 		// multiply - same types
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", BigDecimal.class, BigDecimal.class, true),
+				new BinaryOperatorInfo<>("*", BigDecimal.class, BigDecimal.class),
 				this::multiplyBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", double.class, double.class, true),
+				new BinaryOperatorInfo<>("*", double.class, double.class),
 				this::multiplyDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", float.class, float.class, true),
+				new BinaryOperatorInfo<>("*", float.class, float.class),
 				this::multiplyFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", int.class, int.class, true),
+				new BinaryOperatorInfo<>("*", int.class, int.class),
 				this::multiplyInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", long.class, long.class, true),
+				new BinaryOperatorInfo<>("*", long.class, long.class),
 				this::multiplyLong
 				));
 		
 		// multiply - type promotions
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", BigDecimal.class, double.class, true),
+				new BinaryOperatorInfo<>("*", BigDecimal.class, double.class),
 				this::multiplyBigDecimalAndDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", BigDecimal.class, float.class, true),
+				new BinaryOperatorInfo<>("*", BigDecimal.class, float.class),
 				this::multiplyBigDecimalAndFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", BigDecimal.class, int.class, true),
+				new BinaryOperatorInfo<>("*", BigDecimal.class, int.class),
 				this::multiplyBigDecimalAndInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", BigDecimal.class, long.class, true),
+				new BinaryOperatorInfo<>("*", BigDecimal.class, long.class),
 				this::multiplyBigDecimalAndLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", double.class, float.class, true),
+				new BinaryOperatorInfo<>("*", double.class, float.class),
 				this::multiplyDoubleAndFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", double.class, int.class, true),
+				new BinaryOperatorInfo<>("*", double.class, int.class),
 				this::multiplyDoubleAndInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", double.class, long.class, true),
+				new BinaryOperatorInfo<>("*", double.class, long.class),
 				this::multiplyDoubleAndLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", float.class, int.class, true),
+				new BinaryOperatorInfo<>("*", float.class, int.class),
 				this::multiplyFloatAndInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", float.class, long.class, true),
+				new BinaryOperatorInfo<>("*", float.class, long.class),
 				this::multiplyFloatAndLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("*", long.class, int.class, true),
+				new BinaryOperatorInfo<>("*", long.class, int.class),
 				this::multiplyLongAndInt
 				));
 		
 		// divide - same types
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", BigDecimal.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("/", BigDecimal.class, BigDecimal.class),
 				this::divideBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", double.class, double.class, false),
+				new BinaryOperatorInfo<>("/", double.class, double.class),
 				this::divideDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", float.class, float.class, false),
+				new BinaryOperatorInfo<>("/", float.class, float.class),
 				this::divideFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", int.class, int.class, false),
+				new BinaryOperatorInfo<>("/", int.class, int.class),
 				this::divideInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", long.class, long.class, false),
+				new BinaryOperatorInfo<>("/", long.class, long.class),
 				this::divideLong
 				));
 
 		// divide - type promotions
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", BigDecimal.class, double.class, false),
+				new BinaryOperatorInfo<>("/", BigDecimal.class, double.class),
 				this::divideBigDecimalByDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", BigDecimal.class, float.class, false),
+				new BinaryOperatorInfo<>("/", BigDecimal.class, float.class),
 				this::divideBigDecimalByFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", BigDecimal.class, int.class, false),
+				new BinaryOperatorInfo<>("/", BigDecimal.class, int.class),
 				this::divideBigDecimalByInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", BigDecimal.class, long.class, false),
+				new BinaryOperatorInfo<>("/", BigDecimal.class, long.class),
 				this::divideBigDecimalByLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", double.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("/", double.class, BigDecimal.class),
 				this::divideDoubleByBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", double.class, float.class, false),
+				new BinaryOperatorInfo<>("/", double.class, float.class),
 				this::divideDoubleByFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", double.class, int.class, false),
+				new BinaryOperatorInfo<>("/", double.class, int.class),
 				this::divideDoubleByInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", double.class, long.class, false),
+				new BinaryOperatorInfo<>("/", double.class, long.class),
 				this::divideDoubleByLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", float.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("/", float.class, BigDecimal.class),
 				this::divideFloatByBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", float.class, double.class, false),
+				new BinaryOperatorInfo<>("/", float.class, double.class),
 				this::divideFloatByDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", float.class, int.class, false),
+				new BinaryOperatorInfo<>("/", float.class, int.class),
 				this::divideFloatByInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", float.class, long.class, false),
+				new BinaryOperatorInfo<>("/", float.class, long.class),
 				this::divideFloatByLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", int.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("/", int.class, BigDecimal.class),
 				this::divideIntByBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", int.class, double.class, false),
+				new BinaryOperatorInfo<>("/", int.class, double.class),
 				this::divideIntByDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", int.class, float.class, false),
+				new BinaryOperatorInfo<>("/", int.class, float.class),
 				this::divideIntByFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", int.class, long.class, false),
+				new BinaryOperatorInfo<>("/", int.class, long.class),
 				this::divideIntByLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", long.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("/", long.class, BigDecimal.class),
 				this::divideLongByBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", long.class, double.class, false),
+				new BinaryOperatorInfo<>("/", long.class, double.class),
 				this::divideLongByDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", long.class, float.class, false),
+				new BinaryOperatorInfo<>("/", long.class, float.class),
 				this::divideLongByFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("/", long.class, int.class, false),
+				new BinaryOperatorInfo<>("/", long.class, int.class),
 				this::divideLongByInt
 				));
 
 		// modulo - same types
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", BigDecimal.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("%", BigDecimal.class, BigDecimal.class),
 				this::modBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", double.class, double.class, false),
+				new BinaryOperatorInfo<>("%", double.class, double.class),
 				this::modDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", float.class, float.class, false),
+				new BinaryOperatorInfo<>("%", float.class, float.class),
 				this::modFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", int.class, int.class, false),
+				new BinaryOperatorInfo<>("%", int.class, int.class),
 				this::modInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", long.class, long.class, false),
+				new BinaryOperatorInfo<>("%", long.class, long.class),
 				this::modLong
 				));
 
 		// modulo - type promotions
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", BigDecimal.class, double.class, false),
+				new BinaryOperatorInfo<>("%", BigDecimal.class, double.class),
 				this::bigDecimalModDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", BigDecimal.class, float.class, false),
+				new BinaryOperatorInfo<>("%", BigDecimal.class, float.class),
 				this::bigDecimalModFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", BigDecimal.class, int.class, false),
+				new BinaryOperatorInfo<>("%", BigDecimal.class, int.class),
 				this::bigDecimalModInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", BigDecimal.class, long.class, false),
+				new BinaryOperatorInfo<>("%", BigDecimal.class, long.class),
 				this::bigDecimalModLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", double.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("%", double.class, BigDecimal.class),
 				this::doubleModBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", double.class, float.class, false),
+				new BinaryOperatorInfo<>("%", double.class, float.class),
 				this::doubleModFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", double.class, int.class, false),
+				new BinaryOperatorInfo<>("%", double.class, int.class),
 				this::doubleModInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", double.class, long.class, false),
+				new BinaryOperatorInfo<>("%", double.class, long.class),
 				this::doubleModLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", float.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("%", float.class, BigDecimal.class),
 				this::floatModBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", float.class, double.class, false),
+				new BinaryOperatorInfo<>("%", float.class, double.class),
 				this::floatModDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", float.class, int.class, false),
+				new BinaryOperatorInfo<>("%", float.class, int.class),
 				this::floatModInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", float.class, long.class, false),
+				new BinaryOperatorInfo<>("%", float.class, long.class),
 				this::floatModLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", int.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("%", int.class, BigDecimal.class),
 				this::intModBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", int.class, double.class, false),
+				new BinaryOperatorInfo<>("%", int.class, double.class),
 				this::intModDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", int.class, float.class, false),
+				new BinaryOperatorInfo<>("%", int.class, float.class),
 				this::intModFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", int.class, long.class, false),
+				new BinaryOperatorInfo<>("%", int.class, long.class),
 				this::intModLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", long.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("%", long.class, BigDecimal.class),
 				this::longModBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", long.class, double.class, false),
+				new BinaryOperatorInfo<>("%", long.class, double.class),
 				this::longModDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", long.class, float.class, false),
+				new BinaryOperatorInfo<>("%", long.class, float.class),
 				this::longModFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("%", long.class, int.class, false),
+				new BinaryOperatorInfo<>("%", long.class, int.class),
 				this::longModInt
 				));
 
 		// power - same types
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", BigDecimal.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("**", BigDecimal.class, BigDecimal.class),
 				this::powerBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", double.class, double.class, false),
+				new BinaryOperatorInfo<>("**", double.class, double.class),
 				this::powerDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", float.class, float.class, false),
+				new BinaryOperatorInfo<>("**", float.class, float.class),
 				this::powerFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", int.class, int.class, false),
+				new BinaryOperatorInfo<>("**", int.class, int.class),
 				this::powerInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", long.class, long.class, false),
+				new BinaryOperatorInfo<>("**", long.class, long.class),
 				this::powerLong
 				));
 
 		// power - type promotions
 		//
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", BigDecimal.class, double.class, false),
+				new BinaryOperatorInfo<>("**", BigDecimal.class, double.class),
 				this::bigDecimalPowerDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", BigDecimal.class, float.class, false),
+				new BinaryOperatorInfo<>("**", BigDecimal.class, float.class),
 				this::bigDecimalPowerFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", BigDecimal.class, int.class, false),
+				new BinaryOperatorInfo<>("**", BigDecimal.class, int.class),
 				this::bigDecimalPowerInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", BigDecimal.class, long.class, false),
+				new BinaryOperatorInfo<>("**", BigDecimal.class, long.class),
 				this::bigDecimalPowerLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", double.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("**", double.class, BigDecimal.class),
 				this::doublePowerBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", double.class, float.class, false),
+				new BinaryOperatorInfo<>("**", double.class, float.class),
 				this::doublePowerFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", double.class, int.class, false),
+				new BinaryOperatorInfo<>("**", double.class, int.class),
 				this::doublePowerInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", double.class, long.class, false),
+				new BinaryOperatorInfo<>("**", double.class, long.class),
 				this::doublePowerLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", float.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("**", float.class, BigDecimal.class),
 				this::floatPowerBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", float.class, double.class, false),
+				new BinaryOperatorInfo<>("**", float.class, double.class),
 				this::floatPowerDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", float.class, int.class, false),
+				new BinaryOperatorInfo<>("**", float.class, int.class),
 				this::floatPowerInt
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", float.class, long.class, false),
+				new BinaryOperatorInfo<>("**", float.class, long.class),
 				this::floatPowerLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", int.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("**", int.class, BigDecimal.class),
 				this::intPowerBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", int.class, double.class, false),
+				new BinaryOperatorInfo<>("**", int.class, double.class),
 				this::intPowerDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", int.class, float.class, false),
+				new BinaryOperatorInfo<>("**", int.class, float.class),
 				this::intPowerFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", int.class, long.class, false),
+				new BinaryOperatorInfo<>("**", int.class, long.class),
 				this::intPowerLong
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", long.class, BigDecimal.class, false),
+				new BinaryOperatorInfo<>("**", long.class, BigDecimal.class),
 				this::longPowerBigDecimal
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", long.class, double.class, false),
+				new BinaryOperatorInfo<>("**", long.class, double.class),
 				this::longPowerDouble
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", long.class, float.class, false),
+				new BinaryOperatorInfo<>("**", long.class, float.class),
 				this::longPowerFloat
 				));
 		super.register(new BinaryFunc<>(
-				new BinaryOperatorInfo<>("**", long.class, int.class, false),
+				new BinaryOperatorInfo<>("**", long.class, int.class),
 				this::longPowerInt
 				));
 		

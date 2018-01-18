@@ -46,8 +46,12 @@ public class ExpressionEvaluator {
 		Operand leftOperand = evalOperand(binaryNode.getLeftOperand());
 		Operand rightOperand = evalOperand(binaryNode.getRightOperand());
 		
-		return (Operand)getBinaryFunction(binaryNode, leftOperand, rightOperand)
-				.apply(leftOperand, rightOperand);
+		BinaryFunc binaryFunc = getBinaryFunc(binaryNode, leftOperand, rightOperand);
+		
+		if (binaryOperatorInfoHashKey.getLeftOperandClass() == leftOperand.getOperandClass()) {
+			return (Operand)binaryFunc.getFunction().apply(leftOperand, rightOperand);
+		}
+		return (Operand)binaryFunc.getFunction().apply(rightOperand, leftOperand);
 	}
 	
 	private Operand evalOperand(Operand operand) {
@@ -63,45 +67,52 @@ public class ExpressionEvaluator {
 	}
 	
 	private Operand evalUnaryOperation(UnaryOperatorNode unaryNode) {
-		return (Operand)getUnaryFunction(unaryNode).apply(unaryNode.getOperand());
+		return (Operand)getUnaryFunc(unaryNode)
+				.getFunction()
+				.apply(unaryNode.getOperand());
 	}
 	
-	private BiFunction getBinaryFunction(
+	private BinaryFunc getBinaryFunc(
 			BinaryOperatorNode binaryNode,
 			Operand leftOperand,
 			Operand rightOperand) {
 		binaryOperatorInfoHashKey.forHash(binaryNode, leftOperand, rightOperand);
-		BiFunction binaryFunction = functionRegistry.getBinaryFunction(binaryOperatorInfoHashKey);
+		BinaryFunc binaryFunc = functionRegistry.getBinaryFunc(binaryOperatorInfoHashKey);
 		
-		if (binaryFunction == null) {
-			binaryFunction = DefaultFunctions.INSTANCE.getBinaryFunction(binaryOperatorInfoHashKey);
+		if (binaryFunc == null) {
+			binaryOperatorInfoHashKey.forHash(binaryNode, rightOperand, leftOperand);
+			binaryFunc = functionRegistry.getBinaryFunc(binaryOperatorInfoHashKey);
 			
-			if (binaryFunction == null) {
-				throw new IllegalStateException(
-						"no binary function exists for operator (" + unaryOperatorInfoHashKey.getOperator()
-						+ "), left operand (" + binaryOperatorInfoHashKey.getLeftOperandClass() + ")"
-						+ ", and right operand (" + binaryOperatorInfoHashKey.getRightOperandClass() + ")");
+			if (binaryFunc == null) {
+				binaryFunc = DefaultFunctions.INSTANCE.getBinaryFunc(binaryOperatorInfoHashKey);
+				
+				if (binaryFunc == null) {
+					throw new IllegalStateException(
+							"no binary function exists for operator (" + unaryOperatorInfoHashKey.getOperator()
+							+ "), left operand (" + binaryOperatorInfoHashKey.getLeftOperandClass() + ")"
+							+ ", and right operand (" + binaryOperatorInfoHashKey.getRightOperandClass() + ")");
+				}
 			}
 		}
 		
-		return binaryFunction;
+		return binaryFunc;
 	}
 	
-	private Function getUnaryFunction(UnaryOperatorNode unaryNode) {
+	private UnaryFunc getUnaryFunc(UnaryOperatorNode unaryNode) {
 		unaryOperatorInfoHashKey.forHash(unaryNode);
-		Function unaryFunction = functionRegistry.getUnaryFunction(unaryOperatorInfoHashKey);
+		UnaryFunc unaryFunc = functionRegistry.getUnaryFunc(unaryOperatorInfoHashKey);
 		
-		if (unaryFunction == null) {
-			unaryFunction = DefaultFunctions.INSTANCE.getUnaryFunction(unaryOperatorInfoHashKey);
+		if (unaryFunc == null) {
+			unaryFunc = DefaultFunctions.INSTANCE.getUnaryFunc(unaryOperatorInfoHashKey);
 			
-			if (unaryFunction == null) {
+			if (unaryFunc == null) {
 				throw new IllegalStateException(
 						"no unary function exists for operator (" + unaryOperatorInfoHashKey.getOperator()
 						+ ") and operand (" + unaryOperatorInfoHashKey.getOperandClass() + ")");
 			}
 		}
 		
-		return unaryFunction;
+		return unaryFunc;
 	}
 	
 	private void setupEval() {
