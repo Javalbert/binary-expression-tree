@@ -38,4 +38,17 @@ class ExpressionEvaluatorSpec extends Specification {
 		then: 'result is 3'
 		result == 3
 	}
+	
+	def '1 + 2 * 3 evaluates to 7'() {
+		Expression expr = new Expression().val(1)
+		.plus().val(2)
+		.times().val(3)
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		
+		when: 'evaluated'
+		Object result = new ExpressionEvaluator().eval(node)
+		
+		then: 'result is 7'
+		result == 7
+	}
 }

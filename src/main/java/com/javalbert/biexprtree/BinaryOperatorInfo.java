@@ -42,10 +42,10 @@ public class BinaryOperatorInfo<T, U> implements OperatorInfo {
 		this.rightOperandClass = null;
 	}
 
-	void forHash(BinaryOperatorNode binaryNode) {
-		operator = binaryNode.getOperator();
-		leftOperandClass = binaryNode.getLeftOperand().getOperandClass();
-		rightOperandClass = binaryNode.getRightOperand().getOperandClass();
+	void forHash(BinaryOperatorNode nodeWithOperator, Operand leftOperand, Operand rightOperand) {
+		operator = nodeWithOperator.getOperator();
+		leftOperandClass = leftOperand.getOperandClass();
+		rightOperandClass = rightOperand.getOperandClass();
 	}
 	
 	@Override

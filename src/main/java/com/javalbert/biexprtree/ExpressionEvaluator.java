@@ -33,20 +33,44 @@ public class ExpressionEvaluator {
 	
 	private Operand eval0(Node node) {
 		if (node instanceof BinaryOperatorNode) {
-			BinaryOperatorNode binaryNode = (BinaryOperatorNode)node;
-			return (Operand)getBinaryFunction(binaryNode)
-					.apply(binaryNode.getLeftOperand(), binaryNode.getRightOperand());
+			return evalBinaryOperation((BinaryOperatorNode) node);
 		} else if (node instanceof UnaryOperatorNode) {
-			UnaryOperatorNode unaryNode = (UnaryOperatorNode)node;
-			return (Operand)getUnaryFunction(unaryNode).apply(unaryNode.getOperand());
+			return evalUnaryOperation((UnaryOperatorNode) node);
 		} else if (node instanceof Operand) {
-			return (Operand)node;
+			return evalOperand((Operand) node);
 		}
 		return null;
 	}
 	
-	private BiFunction getBinaryFunction(BinaryOperatorNode binaryNode) {
-		binaryOperatorInfoHashKey.forHash(binaryNode);
+	private Operand evalBinaryOperation(BinaryOperatorNode binaryNode) {
+		Operand leftOperand = evalOperand(binaryNode.getLeftOperand());
+		Operand rightOperand = evalOperand(binaryNode.getRightOperand());
+		
+		return (Operand)getBinaryFunction(binaryNode, leftOperand, rightOperand)
+				.apply(leftOperand, rightOperand);
+	}
+	
+	private Operand evalOperand(Operand operand) {
+		Object operandValue = operand.getValue();
+		
+		if (operandValue instanceof BinaryOperatorNode) {
+			return evalBinaryOperation((BinaryOperatorNode) operandValue);
+		} else if (operandValue instanceof UnaryOperatorNode) {
+			return evalUnaryOperation((UnaryOperatorNode) operandValue);
+		}
+		
+		return operand;
+	}
+	
+	private Operand evalUnaryOperation(UnaryOperatorNode unaryNode) {
+		return (Operand)getUnaryFunction(unaryNode).apply(unaryNode.getOperand());
+	}
+	
+	private BiFunction getBinaryFunction(
+			BinaryOperatorNode binaryNode,
+			Operand leftOperand,
+			Operand rightOperand) {
+		binaryOperatorInfoHashKey.forHash(binaryNode, leftOperand, rightOperand);
 		BiFunction binaryFunction = functionRegistry.getBinaryFunction(binaryOperatorInfoHashKey);
 		
 		if (binaryFunction == null) {
