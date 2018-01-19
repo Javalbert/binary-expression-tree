@@ -584,6 +584,583 @@ class DefaultFunctions extends FunctionRegistry {
 				new UnaryOperatorInfo<>("-", long.class),
 				this::negateLong
 				));
+		
+		// equals - same types
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", BigDecimal.class, BigDecimal.class),
+				this::bigDecimalsAreEqual
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", double.class, double.class),
+				this::doublesAreEqual
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", float.class, float.class),
+				this::floatsAreEqual
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", int.class, int.class),
+				this::intsAreEqual
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", long.class, long.class),
+				this::longsAreEqual
+				));
+		
+		// equals - type promotions
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", BigDecimal.class, double.class),
+				this::bigDecimalEqualsToDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", BigDecimal.class, float.class),
+				this::bigDecimalEqualsToFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", BigDecimal.class, int.class),
+				this::bigDecimalEqualsToInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", BigDecimal.class, long.class),
+				this::bigDecimalEqualsToLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", double.class, float.class),
+				this::doubleEqualsToFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", double.class, int.class),
+				this::doubleEqualsToInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", double.class, long.class),
+				this::doubleEqualsToLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", float.class, int.class),
+				this::floatEqualsToInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", float.class, long.class),
+				this::floatEqualsToLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", long.class, int.class),
+				this::longEqualsToInt
+				));
+		
+		// not equals - same types
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", BigDecimal.class, BigDecimal.class),
+				this::bigDecimalsAreNotEqual
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", double.class, double.class),
+				this::doublesAreNotEqual
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", float.class, float.class),
+				this::floatsAreNotEqual
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", int.class, int.class),
+				this::intsAreNotEqual
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", long.class, long.class),
+				this::longsAreNotEqual
+				));
+		
+		// not equals - type promotions
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", BigDecimal.class, double.class),
+				this::bigDecimalNotEqualToDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", BigDecimal.class, float.class),
+				this::bigDecimalNotEqualToFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", BigDecimal.class, int.class),
+				this::bigDecimalNotEqualToInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", BigDecimal.class, long.class),
+				this::bigDecimalNotEqualToLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", double.class, float.class),
+				this::doubleNotEqualToFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", double.class, int.class),
+				this::doubleNotEqualToInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", double.class, long.class),
+				this::doubleNotEqualToLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", float.class, int.class),
+				this::floatNotEqualToInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", float.class, long.class),
+				this::floatNotEqualToLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", long.class, int.class),
+				this::longNotEqualToInt
+				));
+		
+		// less than - same types
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", BigDecimal.class, BigDecimal.class),
+				this::lessThanBigDecimals
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", double.class, double.class),
+				this::lessThanDoubles
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", float.class, float.class),
+				this::lessThanFloats
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", int.class, int.class),
+				this::lessThanInts
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", long.class, long.class),
+				this::lessThanLongs
+				));
+
+		// less than - type promotions
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", BigDecimal.class, double.class),
+				this::bigDecimalLessThanDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", BigDecimal.class, float.class),
+				this::bigDecimalLessThanFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", BigDecimal.class, int.class),
+				this::bigDecimalLessThanInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", BigDecimal.class, long.class),
+				this::bigDecimalLessThanLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", double.class, BigDecimal.class),
+				this::doubleLessThanBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", double.class, float.class),
+				this::doubleLessThanFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", double.class, int.class),
+				this::doubleLessThanInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", double.class, long.class),
+				this::doubleLessThanLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", float.class, BigDecimal.class),
+				this::floatLessThanBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", float.class, double.class),
+				this::floatLessThanDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", float.class, int.class),
+				this::floatLessThanInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", float.class, long.class),
+				this::floatLessThanLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", int.class, BigDecimal.class),
+				this::intLessThanBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", int.class, double.class),
+				this::intLessThanDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", int.class, float.class),
+				this::intLessThanFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", int.class, long.class),
+				this::intLessThanLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", long.class, BigDecimal.class),
+				this::longLessThanBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", long.class, double.class),
+				this::longLessThanDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", long.class, float.class),
+				this::longLessThanFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<", long.class, int.class),
+				this::longLessThanInt
+				));
+		
+		// less than equal - same types
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", BigDecimal.class, BigDecimal.class),
+				this::lessThanEqualBigDecimals
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", double.class, double.class),
+				this::lessThanEqualDoubles
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", float.class, float.class),
+				this::lessThanEqualFloats
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", int.class, int.class),
+				this::lessThanEqualInts
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", long.class, long.class),
+				this::lessThanEqualLongs
+				));
+
+		// less than equal - type promotions
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", BigDecimal.class, double.class),
+				this::bigDecimalLessThanEqualDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", BigDecimal.class, float.class),
+				this::bigDecimalLessThanEqualFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", BigDecimal.class, int.class),
+				this::bigDecimalLessThanEqualInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", BigDecimal.class, long.class),
+				this::bigDecimalLessThanEqualLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", double.class, BigDecimal.class),
+				this::doubleLessThanEqualBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", double.class, float.class),
+				this::doubleLessThanEqualFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", double.class, int.class),
+				this::doubleLessThanEqualInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", double.class, long.class),
+				this::doubleLessThanEqualLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", float.class, BigDecimal.class),
+				this::floatLessThanEqualBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", float.class, double.class),
+				this::floatLessThanEqualDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", float.class, int.class),
+				this::floatLessThanEqualInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", float.class, long.class),
+				this::floatLessThanEqualLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", int.class, BigDecimal.class),
+				this::intLessThanEqualBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", int.class, double.class),
+				this::intLessThanEqualDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", int.class, float.class),
+				this::intLessThanEqualFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", int.class, long.class),
+				this::intLessThanEqualLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", long.class, BigDecimal.class),
+				this::longLessThanEqualBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", long.class, double.class),
+				this::longLessThanEqualDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", long.class, float.class),
+				this::longLessThanEqualFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("<=", long.class, int.class),
+				this::longLessThanEqualInt
+				));
+		
+		// greater than - same types
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", BigDecimal.class, BigDecimal.class),
+				this::greaterThanBigDecimals
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", double.class, double.class),
+				this::greaterThanDoubles
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", float.class, float.class),
+				this::greaterThanFloats
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", int.class, int.class),
+				this::greaterThanInts
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", long.class, long.class),
+				this::greaterThanLongs
+				));
+
+		// greater than - type promotions
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", BigDecimal.class, double.class),
+				this::bigDecimalGreaterThanDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", BigDecimal.class, float.class),
+				this::bigDecimalGreaterThanFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", BigDecimal.class, int.class),
+				this::bigDecimalGreaterThanInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", BigDecimal.class, long.class),
+				this::bigDecimalGreaterThanLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", double.class, BigDecimal.class),
+				this::doubleGreaterThanBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", double.class, float.class),
+				this::doubleGreaterThanFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", double.class, int.class),
+				this::doubleGreaterThanInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", double.class, long.class),
+				this::doubleGreaterThanLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", float.class, BigDecimal.class),
+				this::floatGreaterThanBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", float.class, double.class),
+				this::floatGreaterThanDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", float.class, int.class),
+				this::floatGreaterThanInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", float.class, long.class),
+				this::floatGreaterThanLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", int.class, BigDecimal.class),
+				this::intGreaterThanBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", int.class, double.class),
+				this::intGreaterThanDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", int.class, float.class),
+				this::intGreaterThanFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", int.class, long.class),
+				this::intGreaterThanLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", long.class, BigDecimal.class),
+				this::longGreaterThanBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", long.class, double.class),
+				this::longGreaterThanDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", long.class, float.class),
+				this::longGreaterThanFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">", long.class, int.class),
+				this::longGreaterThanInt
+				));
+		
+		// greater than equal - same types
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", BigDecimal.class, BigDecimal.class),
+				this::greaterThanEqualBigDecimals
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", double.class, double.class),
+				this::greaterThanEqualDoubles
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", float.class, float.class),
+				this::greaterThanEqualFloats
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", int.class, int.class),
+				this::greaterThanEqualInts
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", long.class, long.class),
+				this::greaterThanEqualLongs
+				));
+
+		// greater than equal - type promotions
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", BigDecimal.class, double.class),
+				this::bigDecimalGreaterThanEqualDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", BigDecimal.class, float.class),
+				this::bigDecimalGreaterThanEqualFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", BigDecimal.class, int.class),
+				this::bigDecimalGreaterThanEqualInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", BigDecimal.class, long.class),
+				this::bigDecimalGreaterThanEqualLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", double.class, BigDecimal.class),
+				this::doubleGreaterThanEqualBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", double.class, float.class),
+				this::doubleGreaterThanEqualFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", double.class, int.class),
+				this::doubleGreaterThanEqualInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", double.class, long.class),
+				this::doubleGreaterThanEqualLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", float.class, BigDecimal.class),
+				this::floatGreaterThanEqualBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", float.class, double.class),
+				this::floatGreaterThanEqualDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", float.class, int.class),
+				this::floatGreaterThanEqualInt
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", float.class, long.class),
+				this::floatGreaterThanEqualLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", int.class, BigDecimal.class),
+				this::intGreaterThanEqualBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", int.class, double.class),
+				this::intGreaterThanEqualDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", int.class, float.class),
+				this::intGreaterThanEqualFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", int.class, long.class),
+				this::intGreaterThanEqualLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", long.class, BigDecimal.class),
+				this::longGreaterThanEqualBigDecimal
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", long.class, double.class),
+				this::longGreaterThanEqualDouble
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", long.class, float.class),
+				this::longGreaterThanEqualFloat
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>(">=", long.class, int.class),
+				this::longGreaterThanEqualInt
+				));
+		
+		// and
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("&&", boolean.class, boolean.class),
+				this::logicalAnd
+				));
+		
+		// or
+		//
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("||", boolean.class, boolean.class),
+				this::logicalOr
+				));
+		
+		// not
+		//
+		super.register(new UnaryFunc<>(
+				new UnaryOperatorInfo<>("!", boolean.class),
+				this::logicalNot
+				));
 	}
 	
 	@Override
@@ -1165,5 +1742,567 @@ class DefaultFunctions extends FunctionRegistry {
 	
 	private Operand<Long> negateLong(Operand<Long> x) {
 		return new LongOperand(-((LongOperand)x).getLongValue());
+	}
+	
+	// equals - same types
+	
+	private BooleanOperand bigDecimalsAreEqual(Operand<BigDecimal> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(a.getValue().compareTo(b.getValue()) == 0);
+	}
+	
+	private BooleanOperand doublesAreEqual(Operand<Double> a, Operand<Double> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() == ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand floatsAreEqual(Operand<Float> a, Operand<Float> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() == ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand intsAreEqual(Operand<Integer> a, Operand<Integer> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() == ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand longsAreEqual(Operand<Long> a, Operand<Long> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() == ((LongOperand)b).getLongValue());
+	}
+	
+	// equals - type promotions
+	
+	private BooleanOperand bigDecimalEqualsToDouble(Operand<BigDecimal> a, Operand<Double> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((DoubleOperand)b).getDoubleValue()).stripTrailingZeros()) == 0);
+	}
+	
+	private BooleanOperand bigDecimalEqualsToFloat(Operand<BigDecimal> a, Operand<Float> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((FloatOperand)b).getFloatValue()).stripTrailingZeros()) == 0);
+	}
+	
+	private BooleanOperand bigDecimalEqualsToInt(Operand<BigDecimal> a, Operand<Integer> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((IntOperand)b).getIntValue())) == 0);
+	}
+	
+	private BooleanOperand bigDecimalEqualsToLong(Operand<BigDecimal> a, Operand<Long> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((LongOperand)b).getLongValue())) == 0);
+	}
+	
+	private BooleanOperand doubleEqualsToFloat(Operand<Double> a, Operand<Float> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() == ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand doubleEqualsToInt(Operand<Double> a, Operand<Integer> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() == ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand doubleEqualsToLong(Operand<Double> a, Operand<Long> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() == ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand floatEqualsToInt(Operand<Float> a, Operand<Integer> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() == ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand floatEqualsToLong(Operand<Float> a, Operand<Long> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() == ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand longEqualsToInt(Operand<Long> a, Operand<Integer> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() == ((IntOperand)b).getIntValue());
+	}
+	
+	// not equals - same types
+	
+	private BooleanOperand bigDecimalsAreNotEqual(Operand<BigDecimal> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(a.getValue().compareTo(b.getValue()) != 0);
+	}
+	
+	private BooleanOperand doublesAreNotEqual(Operand<Double> a, Operand<Double> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() != ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand floatsAreNotEqual(Operand<Float> a, Operand<Float> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() != ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand intsAreNotEqual(Operand<Integer> a, Operand<Integer> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() != ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand longsAreNotEqual(Operand<Long> a, Operand<Long> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() != ((LongOperand)b).getLongValue());
+	}
+	
+	// not equals - type promotions
+	
+	private BooleanOperand bigDecimalNotEqualToDouble(Operand<BigDecimal> a, Operand<Double> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((DoubleOperand)b).getDoubleValue()).stripTrailingZeros()) != 0);
+	}
+	
+	private BooleanOperand bigDecimalNotEqualToFloat(Operand<BigDecimal> a, Operand<Float> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((FloatOperand)b).getFloatValue()).stripTrailingZeros()) != 0);
+	}
+	
+	private BooleanOperand bigDecimalNotEqualToInt(Operand<BigDecimal> a, Operand<Integer> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((IntOperand)b).getIntValue())) != 0);
+	}
+	
+	private BooleanOperand bigDecimalNotEqualToLong(Operand<BigDecimal> a, Operand<Long> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((LongOperand)b).getLongValue())) != 0);
+	}
+	
+	private BooleanOperand doubleNotEqualToFloat(Operand<Double> a, Operand<Float> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() != ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand doubleNotEqualToInt(Operand<Double> a, Operand<Integer> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() != ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand doubleNotEqualToLong(Operand<Double> a, Operand<Long> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() != ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand floatNotEqualToInt(Operand<Float> a, Operand<Integer> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() != ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand floatNotEqualToLong(Operand<Float> a, Operand<Long> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() != ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand longNotEqualToInt(Operand<Long> a, Operand<Integer> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() != ((IntOperand)b).getIntValue());
+	}
+	
+	// less than - same types
+
+	private BooleanOperand lessThanBigDecimals(Operand<BigDecimal> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(a.getValue().compareTo(b.getValue()) < 0);
+	}
+	
+	private BooleanOperand lessThanDoubles(Operand<Double> a, Operand<Double> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() < ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand lessThanFloats(Operand<Float> a, Operand<Float> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() < ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand lessThanInts(Operand<Integer> a, Operand<Integer> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() < ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand lessThanLongs(Operand<Long> a, Operand<Long> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() < ((LongOperand)b).getLongValue());
+	}
+	
+	// less than - type promotions
+	
+	private BooleanOperand bigDecimalLessThanDouble(Operand<BigDecimal> a, Operand<Double> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((DoubleOperand)b).getDoubleValue()).stripTrailingZeros()) < 0);
+	}
+	
+	private BooleanOperand bigDecimalLessThanFloat(Operand<BigDecimal> a, Operand<Float> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((FloatOperand)b).getFloatValue()).stripTrailingZeros()) < 0);
+	}
+	
+	private BooleanOperand bigDecimalLessThanInt(Operand<BigDecimal> a, Operand<Integer> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((IntOperand)b).getIntValue())) < 0);
+	}
+	
+	private BooleanOperand bigDecimalLessThanLong(Operand<BigDecimal> a, Operand<Long> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((LongOperand)b).getLongValue())) < 0);
+	}
+	
+	private BooleanOperand doubleLessThanBigDecimal(Operand<Double> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((DoubleOperand)a).getDoubleValue()).stripTrailingZeros().compareTo(b.getValue()) < 0);
+	}
+	
+	private BooleanOperand doubleLessThanFloat(Operand<Double> a, Operand<Float> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() < ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand doubleLessThanInt(Operand<Double> a, Operand<Integer> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() < ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand doubleLessThanLong(Operand<Double> a, Operand<Long> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() < ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand floatLessThanBigDecimal(Operand<Float> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((FloatOperand)a).getFloatValue()).stripTrailingZeros().compareTo(b.getValue()) < 0);
+	}
+	
+	private BooleanOperand floatLessThanDouble(Operand<Float> a, Operand<Double> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() < ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand floatLessThanInt(Operand<Float> a, Operand<Integer> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() < ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand floatLessThanLong(Operand<Float> a, Operand<Long> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() < ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand intLessThanBigDecimal(Operand<Integer> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((IntOperand)a).getIntValue()).compareTo(b.getValue()) < 0);
+	}
+	
+	private BooleanOperand intLessThanDouble(Operand<Integer> a, Operand<Double> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() < ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand intLessThanFloat(Operand<Integer> a, Operand<Float> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() < ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand intLessThanLong(Operand<Integer> a, Operand<Long> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() < ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand longLessThanBigDecimal(Operand<Long> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((LongOperand)a).getLongValue()).stripTrailingZeros().compareTo(b.getValue()) < 0);
+	}
+	
+	private BooleanOperand longLessThanDouble(Operand<Long> a, Operand<Double> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() < ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand longLessThanFloat(Operand<Long> a, Operand<Float> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() < ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand longLessThanInt(Operand<Long> a, Operand<Integer> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() < ((IntOperand)b).getIntValue());
+	}
+	
+	// less than equal - same types
+
+	private BooleanOperand lessThanEqualBigDecimals(Operand<BigDecimal> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(a.getValue().compareTo(b.getValue()) <= 0);
+	}
+	
+	private BooleanOperand lessThanEqualDoubles(Operand<Double> a, Operand<Double> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() <= ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand lessThanEqualFloats(Operand<Float> a, Operand<Float> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() <= ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand lessThanEqualInts(Operand<Integer> a, Operand<Integer> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() <= ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand lessThanEqualLongs(Operand<Long> a, Operand<Long> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() <= ((LongOperand)b).getLongValue());
+	}
+	
+	// less than equal - type promotions
+	
+	private BooleanOperand bigDecimalLessThanEqualDouble(Operand<BigDecimal> a, Operand<Double> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((DoubleOperand)b).getDoubleValue()).stripTrailingZeros()) <= 0);
+	}
+	
+	private BooleanOperand bigDecimalLessThanEqualFloat(Operand<BigDecimal> a, Operand<Float> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((FloatOperand)b).getFloatValue()).stripTrailingZeros()) <= 0);
+	}
+	
+	private BooleanOperand bigDecimalLessThanEqualInt(Operand<BigDecimal> a, Operand<Integer> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((IntOperand)b).getIntValue())) <= 0);
+	}
+	
+	private BooleanOperand bigDecimalLessThanEqualLong(Operand<BigDecimal> a, Operand<Long> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((LongOperand)b).getLongValue())) <= 0);
+	}
+	
+	private BooleanOperand doubleLessThanEqualBigDecimal(Operand<Double> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((DoubleOperand)a).getDoubleValue()).stripTrailingZeros().compareTo(b.getValue()) <= 0);
+	}
+	
+	private BooleanOperand doubleLessThanEqualFloat(Operand<Double> a, Operand<Float> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() <= ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand doubleLessThanEqualInt(Operand<Double> a, Operand<Integer> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() <= ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand doubleLessThanEqualLong(Operand<Double> a, Operand<Long> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() <= ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand floatLessThanEqualBigDecimal(Operand<Float> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((FloatOperand)a).getFloatValue()).stripTrailingZeros().compareTo(b.getValue()) <= 0);
+	}
+	
+	private BooleanOperand floatLessThanEqualDouble(Operand<Float> a, Operand<Double> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() <= ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand floatLessThanEqualInt(Operand<Float> a, Operand<Integer> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() <= ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand floatLessThanEqualLong(Operand<Float> a, Operand<Long> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() <= ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand intLessThanEqualBigDecimal(Operand<Integer> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((IntOperand)a).getIntValue()).compareTo(b.getValue()) <= 0);
+	}
+	
+	private BooleanOperand intLessThanEqualDouble(Operand<Integer> a, Operand<Double> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() <= ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand intLessThanEqualFloat(Operand<Integer> a, Operand<Float> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() <= ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand intLessThanEqualLong(Operand<Integer> a, Operand<Long> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() <= ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand longLessThanEqualBigDecimal(Operand<Long> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((LongOperand)a).getLongValue()).stripTrailingZeros().compareTo(b.getValue()) <= 0);
+	}
+	
+	private BooleanOperand longLessThanEqualDouble(Operand<Long> a, Operand<Double> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() <= ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand longLessThanEqualFloat(Operand<Long> a, Operand<Float> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() <= ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand longLessThanEqualInt(Operand<Long> a, Operand<Integer> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() <= ((IntOperand)b).getIntValue());
+	}
+	
+	// greater than - same types
+
+	private BooleanOperand greaterThanBigDecimals(Operand<BigDecimal> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(a.getValue().compareTo(b.getValue()) > 0);
+	}
+	
+	private BooleanOperand greaterThanDoubles(Operand<Double> a, Operand<Double> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() > ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand greaterThanFloats(Operand<Float> a, Operand<Float> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() > ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand greaterThanInts(Operand<Integer> a, Operand<Integer> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() > ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand greaterThanLongs(Operand<Long> a, Operand<Long> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() > ((LongOperand)b).getLongValue());
+	}
+	
+	// greater than - type promotions
+	
+	private BooleanOperand bigDecimalGreaterThanDouble(Operand<BigDecimal> a, Operand<Double> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((DoubleOperand)b).getDoubleValue()).stripTrailingZeros()) > 0);
+	}
+	
+	private BooleanOperand bigDecimalGreaterThanFloat(Operand<BigDecimal> a, Operand<Float> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((FloatOperand)b).getFloatValue()).stripTrailingZeros()) > 0);
+	}
+	
+	private BooleanOperand bigDecimalGreaterThanInt(Operand<BigDecimal> a, Operand<Integer> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((IntOperand)b).getIntValue())) > 0);
+	}
+	
+	private BooleanOperand bigDecimalGreaterThanLong(Operand<BigDecimal> a, Operand<Long> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((LongOperand)b).getLongValue())) > 0);
+	}
+	
+	private BooleanOperand doubleGreaterThanBigDecimal(Operand<Double> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((DoubleOperand)a).getDoubleValue()).stripTrailingZeros().compareTo(b.getValue()) > 0);
+	}
+	
+	private BooleanOperand doubleGreaterThanFloat(Operand<Double> a, Operand<Float> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() > ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand doubleGreaterThanInt(Operand<Double> a, Operand<Integer> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() > ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand doubleGreaterThanLong(Operand<Double> a, Operand<Long> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() > ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand floatGreaterThanBigDecimal(Operand<Float> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((FloatOperand)a).getFloatValue()).stripTrailingZeros().compareTo(b.getValue()) > 0);
+	}
+	
+	private BooleanOperand floatGreaterThanDouble(Operand<Float> a, Operand<Double> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() > ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand floatGreaterThanInt(Operand<Float> a, Operand<Integer> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() > ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand floatGreaterThanLong(Operand<Float> a, Operand<Long> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() > ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand intGreaterThanBigDecimal(Operand<Integer> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((IntOperand)a).getIntValue()).compareTo(b.getValue()) > 0);
+	}
+	
+	private BooleanOperand intGreaterThanDouble(Operand<Integer> a, Operand<Double> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() > ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand intGreaterThanFloat(Operand<Integer> a, Operand<Float> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() > ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand intGreaterThanLong(Operand<Integer> a, Operand<Long> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() > ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand longGreaterThanBigDecimal(Operand<Long> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((LongOperand)a).getLongValue()).stripTrailingZeros().compareTo(b.getValue()) > 0);
+	}
+	
+	private BooleanOperand longGreaterThanDouble(Operand<Long> a, Operand<Double> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() > ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand longGreaterThanFloat(Operand<Long> a, Operand<Float> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() > ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand longGreaterThanInt(Operand<Long> a, Operand<Integer> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() > ((IntOperand)b).getIntValue());
+	}
+	
+	// greater than equal - same types
+
+	private BooleanOperand greaterThanEqualBigDecimals(Operand<BigDecimal> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(a.getValue().compareTo(b.getValue()) >= 0);
+	}
+	
+	private BooleanOperand greaterThanEqualDoubles(Operand<Double> a, Operand<Double> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() >= ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand greaterThanEqualFloats(Operand<Float> a, Operand<Float> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() >= ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand greaterThanEqualInts(Operand<Integer> a, Operand<Integer> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() >= ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand greaterThanEqualLongs(Operand<Long> a, Operand<Long> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() >= ((LongOperand)b).getLongValue());
+	}
+	
+	// greater than equal - type promotions
+	
+	private BooleanOperand bigDecimalGreaterThanEqualDouble(Operand<BigDecimal> a, Operand<Double> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((DoubleOperand)b).getDoubleValue()).stripTrailingZeros()) >= 0);
+	}
+	
+	private BooleanOperand bigDecimalGreaterThanEqualFloat(Operand<BigDecimal> a, Operand<Float> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((FloatOperand)b).getFloatValue()).stripTrailingZeros()) >= 0);
+	}
+	
+	private BooleanOperand bigDecimalGreaterThanEqualInt(Operand<BigDecimal> a, Operand<Integer> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((IntOperand)b).getIntValue())) >= 0);
+	}
+	
+	private BooleanOperand bigDecimalGreaterThanEqualLong(Operand<BigDecimal> a, Operand<Long> b) {
+		return new BooleanOperand(a.getValue().compareTo(BigDecimal.valueOf(((LongOperand)b).getLongValue())) >= 0);
+	}
+	
+	private BooleanOperand doubleGreaterThanEqualBigDecimal(Operand<Double> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((DoubleOperand)a).getDoubleValue()).stripTrailingZeros().compareTo(b.getValue()) >= 0);
+	}
+	
+	private BooleanOperand doubleGreaterThanEqualFloat(Operand<Double> a, Operand<Float> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() >= ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand doubleGreaterThanEqualInt(Operand<Double> a, Operand<Integer> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() >= ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand doubleGreaterThanEqualLong(Operand<Double> a, Operand<Long> b) {
+		return new BooleanOperand(((DoubleOperand)a).getDoubleValue() >= ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand floatGreaterThanEqualBigDecimal(Operand<Float> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((FloatOperand)a).getFloatValue()).stripTrailingZeros().compareTo(b.getValue()) >= 0);
+	}
+	
+	private BooleanOperand floatGreaterThanEqualDouble(Operand<Float> a, Operand<Double> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() >= ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand floatGreaterThanEqualInt(Operand<Float> a, Operand<Integer> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() >= ((IntOperand)b).getIntValue());
+	}
+	
+	private BooleanOperand floatGreaterThanEqualLong(Operand<Float> a, Operand<Long> b) {
+		return new BooleanOperand(((FloatOperand)a).getFloatValue() >= ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand intGreaterThanEqualBigDecimal(Operand<Integer> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((IntOperand)a).getIntValue()).compareTo(b.getValue()) >= 0);
+	}
+	
+	private BooleanOperand intGreaterThanEqualDouble(Operand<Integer> a, Operand<Double> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() >= ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand intGreaterThanEqualFloat(Operand<Integer> a, Operand<Float> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() >= ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand intGreaterThanEqualLong(Operand<Integer> a, Operand<Long> b) {
+		return new BooleanOperand(((IntOperand)a).getIntValue() >= ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand longGreaterThanEqualBigDecimal(Operand<Long> a, Operand<BigDecimal> b) {
+		return new BooleanOperand(BigDecimal.valueOf(((LongOperand)a).getLongValue()).stripTrailingZeros().compareTo(b.getValue()) >= 0);
+	}
+	
+	private BooleanOperand longGreaterThanEqualDouble(Operand<Long> a, Operand<Double> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() >= ((DoubleOperand)b).getDoubleValue());
+	}
+	
+	private BooleanOperand longGreaterThanEqualFloat(Operand<Long> a, Operand<Float> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() >= ((FloatOperand)b).getFloatValue());
+	}
+	
+	private BooleanOperand longGreaterThanEqualInt(Operand<Long> a, Operand<Integer> b) {
+		return new BooleanOperand(((LongOperand)a).getLongValue() >= ((IntOperand)b).getIntValue());
+	}
+	
+	// and
+	
+	private BooleanOperand logicalAnd(Operand<Boolean> a, Operand<Boolean> b) {
+		return new BooleanOperand(((BooleanOperand)a).getBooleanValue() && ((BooleanOperand)b).getBooleanValue());
+	}
+	
+	// or
+	
+	private BooleanOperand logicalOr(Operand<Boolean> a, Operand<Boolean> b) {
+		return new BooleanOperand(((BooleanOperand)a).getBooleanValue() || ((BooleanOperand)b).getBooleanValue());
+	}
+	
+	// not
+	
+	private BooleanOperand logicalNot(Operand<Boolean> x) {
+		return new BooleanOperand(!((BooleanOperand)x).getBooleanValue());
 	}
 }

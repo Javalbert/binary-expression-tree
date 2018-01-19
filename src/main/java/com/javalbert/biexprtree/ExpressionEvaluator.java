@@ -1,8 +1,6 @@
 package com.javalbert.biexprtree;
 
 import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class ExpressionEvaluator {
 	private final FunctionRegistry functionRegistry;
@@ -26,6 +24,20 @@ public class ExpressionEvaluator {
 		return result.getValue();
 	}
 	
+	private boolean canShortCircuit(Operand leftOperand, BinaryOperatorNode binaryNode) {
+		if (leftOperand instanceof BooleanOperand) {
+			BooleanOperand booleanOperand = (BooleanOperand)leftOperand;
+			
+			if (!booleanOperand.getBooleanValue()
+					&& binaryNode.getOperator().equals(Operators.AND.getOperator())
+					|| booleanOperand.getBooleanValue()
+					&& binaryNode.getOperator().equals(Operators.OR.getOperator())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	private void cleanUpEval() {
 		binaryOperatorInfoHashKey = null;
 		unaryOperatorInfoHashKey = null;
@@ -44,8 +56,12 @@ public class ExpressionEvaluator {
 	
 	private Operand evalBinaryOperation(BinaryOperatorNode binaryNode) {
 		Operand leftOperand = evalOperand(binaryNode.getLeftOperand());
-		Operand rightOperand = evalOperand(binaryNode.getRightOperand());
 		
+		if (canShortCircuit(leftOperand, binaryNode)) {
+			return leftOperand;
+		}
+		
+		Operand rightOperand = evalOperand(binaryNode.getRightOperand());
 		BinaryFunc binaryFunc = getBinaryFunc(binaryNode, leftOperand, rightOperand);
 		
 		if (binaryOperatorInfoHashKey.getLeftOperandClass() == leftOperand.getOperandClass()) {
@@ -53,7 +69,7 @@ public class ExpressionEvaluator {
 		}
 		return (Operand)binaryFunc.getFunction().apply(rightOperand, leftOperand);
 	}
-	
+
 	private Operand evalOperand(Operand operand) {
 		Object operandValue = operand.getValue();
 		
