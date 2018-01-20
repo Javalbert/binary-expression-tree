@@ -269,4 +269,18 @@ public class Expression {
 	}
 	
 	/* END Operator methods */
+	
+	@Override
+	public String toString() {
+		StringBuilder str = new StringBuilder("[Expression");
+		for (Node node : nodes) {
+			str.append(" ");
+			if (node instanceof Operand) {
+				str.append(((Operand)node).getValue());
+			} else {
+				str.append(node);
+			}
+		}
+		return str.append("]").toString();
+	}
 }

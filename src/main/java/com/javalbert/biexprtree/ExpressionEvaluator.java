@@ -102,7 +102,7 @@ public class ExpressionEvaluator {
 				
 				if (binaryFunc == null) {
 					throw new IllegalStateException(
-							"no binary function exists for operator (" + unaryOperatorInfoHashKey.getOperator()
+							"no binary function exists for operator (" + binaryOperatorInfoHashKey.getOperator()
 							+ "), left operand (" + binaryOperatorInfoHashKey.getLeftOperandClass() + ")"
 							+ ", and right operand (" + binaryOperatorInfoHashKey.getRightOperandClass() + ")");
 				}

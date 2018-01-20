@@ -58,6 +58,8 @@ public class ExpressionTreeCreator {
 	}
 	
 	private void addOperandToNewBinaryNode(BinaryOperatorDefinition binaryOpDef, Operand operand) {
+		operand = checkNestedExpression(operand);
+		
 		BinaryOperatorNode binaryNode = new BinaryOperatorNode(binaryOpDef.getOperator());
 		binaryNode.setLeftOperand(operand);
 		updateOperatorByPrecedenceMap(binaryNode);
@@ -66,6 +68,18 @@ public class ExpressionTreeCreator {
 		rootNode = binaryNode;
 	}
 	
+	private Operand checkNestedExpression(Operand operand) {
+		if (operand.getValue() instanceof Expression) {
+			Expression nestedExpr = (Expression)operand.getValue();
+			
+			Node node = new ExpressionTreeCreator(nestedExpr, operatorPrecedence)
+			.create()
+			.getRootNode();
+			return new Operand(node.getClass(), node);
+		}
+		return operand;
+	}
+
 	private void cleanUp() {
 		currentNode = null;
 		nodeDeque = null;
@@ -129,6 +143,8 @@ public class ExpressionTreeCreator {
 		
 		Operand operand = (Operand)currentNode;
 		
+		operand = checkNestedExpression(operand);
+		
 		if (operatorWithMissingOperand instanceof BinaryOperatorNode) {
 			BinaryOperatorNode binaryNode = (BinaryOperatorNode)operatorWithMissingOperand;
 			binaryNode.setRightOperand(operand);
@@ -172,11 +188,11 @@ public class ExpressionTreeCreator {
 			newBinaryNode.setLeftOperand(binaryNode.getRightOperand());
 			binaryNode.setRightOperand(new Operand(BinaryOperatorNode.class, newBinaryNode));
 			
-			rootNode = binaryNode;
+			updateRootNode(binaryNode);
 		} else {
 			binaryNode = getSameOrHigherPriorityNode(newOperatorPriority);
 			newBinaryNode.setLeftOperand(new Operand(BinaryOperatorNode.class, binaryNode));
-			rootNode = newBinaryNode;
+			updateRootNode(newBinaryNode);
 		}
 		
 		updateOperatorByPrecedenceMap(newBinaryNode);
@@ -199,5 +215,19 @@ public class ExpressionTreeCreator {
 	private void updateOperatorByPrecedenceMap(BinaryOperatorNode binaryNode) {
 		int priority = operatorPrecedence.getPriority(binaryNode.getOperator());
 		operatorsByPrecedence.put(priority, binaryNode);
+	}
+	
+	private void updateRootNode(BinaryOperatorNode newRootNode) {
+		if (rootNode == newRootNode) {
+			return;
+		}
+		
+		int newRootNodePriority = operatorPrecedence.getPriority(newRootNode.getOperator());
+		int currentRootNodePriority = operatorPrecedence.getPriority(
+				((BinaryOperatorNode)rootNode).getOperator());
+		
+		if (newRootNodePriority <= currentRootNodePriority) {
+			rootNode = newRootNode;
+		}
 	}
 }
