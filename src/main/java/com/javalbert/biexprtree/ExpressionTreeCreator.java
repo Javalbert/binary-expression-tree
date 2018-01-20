@@ -29,7 +29,6 @@ public class ExpressionTreeCreator {
 	// processing
 	//
 	private Node currentNode;
-	private Deque<Node> nodeDeque;
 	private Map<Integer, BinaryOperatorNode> operatorsByPrecedence;
 	private Operator operatorWithMissingOperand;
 	
@@ -61,12 +60,13 @@ public class ExpressionTreeCreator {
 	public ExpressionTreeCreator create() {
 		setupCreateProcess();
 		
-		while (popStack() &&
-				(handleOperand()
-				|| handleBinaryOperatorDefinition()
-				|| handleUnaryOperatorDefinition())
-				) {
-			; // empty while loop body
+		for (Node node : expr.getNodes()) {
+			currentNode = node;
+			if (handleOperand()
+					|| handleBinaryOperatorDefinition()
+					|| handleUnaryOperatorDefinition()) {
+				; // empty statement
+			}
 		}
 		
 		cleanUp();
@@ -98,7 +98,6 @@ public class ExpressionTreeCreator {
 
 	private void cleanUp() {
 		currentNode = null;
-		nodeDeque = null;
 		operatorsByPrecedence = null;
 		operatorWithMissingOperand = null;
 	}
@@ -215,16 +214,7 @@ public class ExpressionTreeCreator {
 		operatorWithMissingOperand = newBinaryNode;
 	}
 	
-	private boolean popStack() {
-		if (nodeDeque.isEmpty()) {
-			return false;
-		}
-		currentNode = nodeDeque.removeFirst();
-		return true;
-	}
-	
 	private void setupCreateProcess() {
-		nodeDeque = new ArrayDeque<>(expr.getNodes());
 		operatorsByPrecedence = new HashMap<>();
 	}
 	
