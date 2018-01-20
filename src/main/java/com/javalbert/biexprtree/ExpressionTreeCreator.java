@@ -179,6 +179,7 @@ public class ExpressionTreeCreator {
 			rootNode = newBinaryNode;
 		}
 		
+		updateOperatorByPrecedenceMap(newBinaryNode);
 		operatorWithMissingOperand = newBinaryNode;
 	}
 	

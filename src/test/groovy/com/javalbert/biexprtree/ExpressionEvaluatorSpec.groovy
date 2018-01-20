@@ -68,4 +68,82 @@ class ExpressionEvaluatorSpec extends Specification {
 		result1 == 1.5
 		result2 == 1.5
 	}
+	
+	def 'Expression 1 > 2 && 3 < 4 is false'() {
+		given: 'an Expression 1 > 2 && 3 < 4'
+		Expression expr = new Expression().val(1).gt().val(2)
+		.and().val(3).lt().val(4)
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		
+		when: 'evaluated'
+		Object result = new ExpressionEvaluator().eval(node)
+		
+		then: 'result is false'
+		result == false
+	}
+	
+	def 'Expression 1 < 2 && 3 > 4 is false'() {
+		given: 'an Expression 1 < 2 && 3 > 4'
+		Expression expr = new Expression().val(1).lt().val(2)
+		.and().val(3).gt().val(4)
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		
+		when: 'evaluated'
+		Object result = new ExpressionEvaluator().eval(node)
+		
+		then: 'result is false'
+		result == false
+	}
+	
+	def 'Expression 1 < 2 && 3 < 4 is true'() {
+		given: 'an Expression 1 < 2 && 3 > 4'
+		Expression expr = new Expression().val(1).lt().val(2)
+		.and().val(3).lt().val(4)
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		
+		when: 'evaluated'
+		Object result = new ExpressionEvaluator().eval(node)
+		
+		then: 'result is true'
+		result == true
+	}
+	
+	def 'Expression 1 < 2 || 3 > 4 is true'() {
+		given: 'an Expression 1 < 2 || 4 < 3'
+		Expression expr = new Expression().val(1).lt().val(2)
+		.or().val(3).gt().val(4)
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		
+		when: 'evaluated'
+		Object result = new ExpressionEvaluator().eval(node)
+		
+		then: 'result is true'
+		result == true
+	}
+	
+	def 'Expression 1 > 2 || 3 < 4 is true'() {
+		given: 'an Expression 1 > 2 || 3 < 4'
+		Expression expr = new Expression().val(1).gt().val(2)
+		.or().val(3).lt().val(4)
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		
+		when: 'evaluated'
+		Object result = new ExpressionEvaluator().eval(node)
+		
+		then: 'result is true'
+		result == true
+	}
+	
+	def 'Expression 1 > 2 || 3 > 4 is false'() {
+		given: 'an Expression 1 > 2 || 3 > 4'
+		Expression expr = new Expression().val(1).gt().val(2)
+		.or().val(3).gt().val(4)
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		
+		when: 'evaluated'
+		Object result = new ExpressionEvaluator().eval(node)
+		
+		then: 'result is false'
+		result == false
+	}
 }

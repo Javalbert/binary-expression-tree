@@ -28,12 +28,10 @@ public class ExpressionEvaluator {
 		if (leftOperand instanceof BooleanOperand) {
 			BooleanOperand booleanOperand = (BooleanOperand)leftOperand;
 			
-			if (!booleanOperand.getBooleanValue()
+			return !booleanOperand.getBooleanValue()
 					&& binaryNode.getOperator().equals(Operators.AND.getOperator())
 					|| booleanOperand.getBooleanValue()
-					&& binaryNode.getOperator().equals(Operators.OR.getOperator())) {
-				return true;
-			}
+					&& binaryNode.getOperator().equals(Operators.OR.getOperator());
 		}
 		return false;
 	}
