@@ -218,4 +218,33 @@ class ExpressionEvaluatorSpec extends Specification {
 		then: 'result is false'
 		result == false
 	}
+	
+	def '-(1 + 2) / 3 evaluates to -1'() {
+		given: 'an Expression -(1 + 2) / 3'
+		Expression expr = new Expression().negate()
+		.expr(new Expression().val(1).plus().val(2))
+		.dividedBy().val(3)
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		
+		when: 'evaluated'
+		Object result = new ExpressionEvaluator().eval(node)
+		
+		then: 'result is -1'
+		result == -1
+	}
+	
+	def 'Expression !(1 > 2) && 3 < 4 is true'() {
+		given: 'an Expression !(1 > 2) && 3 < 4'
+		Expression expr = new Expression().not()
+		.expr(new Expression()
+			.val(1).gt().val(2))
+		.and().val(3).lt().val(4)
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		
+		when: 'evaluated'
+		Object result = new ExpressionEvaluator().eval(node)
+		
+		then: 'result is true'
+		result == true
+	}
 }

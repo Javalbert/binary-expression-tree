@@ -23,6 +23,20 @@ public class UnaryOperatorNode implements Operator {
 	
 	@Override
 	public String toString() {
-		return operand != null ? operator + operand.getValue() : operator;
+		StringBuilder str = new StringBuilder(operator);
+		
+		boolean nestedExpression = operand.getValue() instanceof Operator;
+		if (nestedExpression) {
+			str.append("(");
+		}
+		
+		if (operand.getValue() != null) {
+			str.append(operand.getValue());
+		}
+		
+		if (nestedExpression) {
+			str.append(")");
+		}
+		return str.toString();
 	}
 }

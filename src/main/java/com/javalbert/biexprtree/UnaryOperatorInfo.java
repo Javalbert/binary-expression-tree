@@ -25,9 +25,9 @@ public class UnaryOperatorInfo<T> implements OperatorInfo {
 		operandClass = null;
 	}
 
-	void forHash(UnaryOperatorNode unaryNode) {
+	void forHash(UnaryOperatorNode unaryNode, Operand operand) {
 		operator = unaryNode.getOperator();
-		operandClass = unaryNode.getOperand().getOperandClass();
+		operandClass = operand.getOperandClass();
 	}
 
 	@Override

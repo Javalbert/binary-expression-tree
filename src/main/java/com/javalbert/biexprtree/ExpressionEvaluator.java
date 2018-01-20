@@ -81,9 +81,10 @@ public class ExpressionEvaluator {
 	}
 	
 	private Operand evalUnaryOperation(UnaryOperatorNode unaryNode) {
-		return (Operand)getUnaryFunc(unaryNode)
+		Operand operand = evalOperand(unaryNode.getOperand());
+		return (Operand)getUnaryFunc(unaryNode, operand)
 				.getFunction()
-				.apply(unaryNode.getOperand());
+				.apply(operand);
 	}
 	
 	private BinaryFunc getBinaryFunc(
@@ -112,8 +113,8 @@ public class ExpressionEvaluator {
 		return binaryFunc;
 	}
 	
-	private UnaryFunc getUnaryFunc(UnaryOperatorNode unaryNode) {
-		unaryOperatorInfoHashKey.forHash(unaryNode);
+	private UnaryFunc getUnaryFunc(UnaryOperatorNode unaryNode, Operand operand) {
+		unaryOperatorInfoHashKey.forHash(unaryNode, operand);
 		UnaryFunc unaryFunc = functionRegistry.getUnaryFunc(unaryOperatorInfoHashKey);
 		
 		if (unaryFunc == null) {
