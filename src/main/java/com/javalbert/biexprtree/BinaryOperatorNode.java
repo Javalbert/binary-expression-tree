@@ -64,16 +64,22 @@ public class BinaryOperatorNode implements Operator {
 			return;
 		}
 		
-		if (operand.getValue() instanceof BinaryOperatorNode) {
+		Object operandValue = operand.getValue();
+		
+		if (operandValue instanceof BinaryOperatorNode) {
 			builder.append("<binary-operator ")
-			.append(((Operator)operand.getValue()).getOperator())
+			.append(((Operator)operandValue).getOperator())
 			.append(">");
-		} else if (operand.getValue() instanceof UnaryOperatorNode) {
+		} else if (operandValue instanceof UnaryOperatorNode) {
 			builder.append("<unary-operator ")
-			.append(((Operator)operand.getValue()).getOperator())
+			.append(((Operator)operandValue).getOperator())
 			.append(">");
+		} else if (operandValue instanceof Variable) {
+			Variable variable = (Variable)operandValue;
+			builder.append(variable.getName())
+			.append("(").append(variable.getValue()).append(")");
 		} else {
-			builder.append(operand.getValue());
+			builder.append(operandValue);
 		}
 	}
 }

@@ -56,4 +56,14 @@ public class IntVariable implements Variable<Integer> {
 		this.name = Variables.validateName(name);
 		value = i;
 	}
+	
+	@Override
+	public Operand<Integer> toOperand() {
+		return new IntOperand(value);
+	}
+	
+	@Override
+	public String toString() {
+		return "int " + name + " = " + value;
+	}
 }

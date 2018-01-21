@@ -58,6 +58,11 @@ public class RefVariable<T> implements Variable<T> {
 	}
 	
 	@Override
+	public Operand<T> toOperand() {
+		return new Operand<T>(type, value);
+	}
+	
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

@@ -19,6 +19,12 @@ package com.javalbert.biexprtree;
 import java.util.Objects;
 
 public class ExpressionEvaluator {
+	public static Object eval(Expression expr) {
+		return new ExpressionEvaluator().eval(
+				new ExpressionTreeCreator(expr).create().getRootNode()
+				);
+	}
+	
 	private final FunctionRegistry functionRegistry;
 	
 	public ExpressionEvaluator() {
@@ -91,6 +97,8 @@ public class ExpressionEvaluator {
 			return evalBinaryOperation((BinaryOperatorNode) operandValue);
 		} else if (operandValue instanceof UnaryOperatorNode) {
 			return evalUnaryOperation((UnaryOperatorNode) operandValue);
+		} else if (operandValue instanceof Variable) {
+			return ((Variable)operandValue).toOperand();
 		}
 		
 		return operand;

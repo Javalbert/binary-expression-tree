@@ -39,15 +39,27 @@ public class UnaryOperatorNode implements Operator {
 	
 	@Override
 	public String toString() {
+		if (operand == null) {
+			return operator;
+		}
+		
 		StringBuilder str = new StringBuilder(operator);
 		
-		boolean nestedExpression = operand.getValue() instanceof Operator;
+		Object operandValue = operand.getValue();
+		
+		boolean nestedExpression = operandValue instanceof Operator;
 		if (nestedExpression) {
 			str.append("(");
 		}
 		
-		if (operand.getValue() != null) {
-			str.append(operand.getValue());
+		if (operandValue != null) {
+			if (operandValue instanceof Variable) {
+				Variable variable = (Variable)operandValue;
+				str.append(variable.getName())
+				.append("(").append(variable.getValue()).append(")");
+			} else {
+				str.append(operandValue);
+			}
 		}
 		
 		if (nestedExpression) {

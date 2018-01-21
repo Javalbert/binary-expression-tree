@@ -21,4 +21,6 @@ public interface Variable<T> {
 	Class<T> getType();
 	T getValue();
 	void setValue(T value);
+	
+	Operand<T> toOperand();
 }
