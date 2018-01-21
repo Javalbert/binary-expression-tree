@@ -16,6 +16,8 @@
  */
 package com.javalbert.biexprtree;
 
+import java.util.Objects;
+
 public class RefVariable<T> implements Variable<T> {
 	private final String name;
 	private final Class<T> type;
@@ -53,7 +55,7 @@ public class RefVariable<T> implements Variable<T> {
 	
 	public RefVariable(Class<T> type, String name, T value) {
 		this.name = Variables.validateName(name);
-		this.type = type;
+		this.type = Objects.requireNonNull(type, "type must not be null");
 		setValue(value);
 	}
 	

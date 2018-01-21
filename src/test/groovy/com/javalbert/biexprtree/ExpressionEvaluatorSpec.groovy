@@ -228,4 +228,34 @@ class ExpressionEvaluatorSpec extends Specification {
 		then: 'result is true'
 		result == true
 	}
+	
+	def 'Expression firstName + " Chan" = "Albert Chan" is true'() {
+		given: 'a String Variable "firstName" set to "Albert"'
+		Variable<String> firstName = new RefVariable(String, 'firstName', 'Albert')
+		
+		and: 'an Expression firstName + " Chan" = "Albert Chan"'
+		Expression expr = new Expression().val(firstName).plus().val(' Chan')
+		.eq().val('Albert Chan')
+		
+		when: 'evaluated'
+		Object result = ExpressionEvaluator.eval(expr)
+		
+		then: 'result is true'
+		result == true
+	}
+	
+	def 'Expression myStr != "foo" && myStr != "bar" is true'() {
+		given: 'a String Variable "myStr" set to "baz"'
+		Variable<String> myStr = new RefVariable(String, 'myStr', 'baz')
+		
+		and: 'an Expression myStr != "foo" && myStr != "bar"'
+		Expression expr = new Expression().val(myStr).noteq().val('foo')
+		.and().val(myStr).noteq().val('bar')
+		
+		when: 'evaluated'
+		Object result = ExpressionEvaluator.eval(expr)
+		
+		then: 'result is true'
+		result == true
+	}
 }

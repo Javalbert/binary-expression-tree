@@ -19,6 +19,8 @@ package com.javalbert.biexprtree;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import org.apache.commons.lang3.StringUtils;
+
 class DefaultFunctions extends FunctionRegistry {
 	public static final DefaultFunctions INSTANCE = new DefaultFunctions();
 	
@@ -48,6 +50,10 @@ class DefaultFunctions extends FunctionRegistry {
 		super.register(new BinaryFunc<>(
 				new BinaryOperatorInfo<>("+", long.class, long.class),
 				this::addLong
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("+", String.class, String.class),
+				this::concatStrings
 				));
 		
 		// add - type promotions
@@ -856,6 +862,10 @@ class DefaultFunctions extends FunctionRegistry {
 				new BinaryOperatorInfo<>("=", long.class, long.class),
 				this::longsAreEqual
 				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("=", String.class, String.class),
+				this::stringsAreEqual
+				));
 		
 		// equals - type promotions
 		//
@@ -945,6 +955,10 @@ class DefaultFunctions extends FunctionRegistry {
 		super.register(new BinaryFunc<>(
 				new BinaryOperatorInfo<>("!=", long.class, long.class),
 				this::longsAreNotEqual
+				));
+		super.register(new BinaryFunc<>(
+				new BinaryOperatorInfo<>("!=", String.class, String.class),
+				this::stringsAreNotEqual
 				));
 		
 		// not equals - type promotions
@@ -1671,6 +1685,10 @@ class DefaultFunctions extends FunctionRegistry {
 	
 	private Operand<Long> addLong(Operand<Long> a, Operand<Long> b) {
 		return new LongOperand(((LongOperand)a).getLongValue() + ((LongOperand)b).getLongValue());
+	}
+	
+	private Operand<String> concatStrings(Operand<String> a, Operand<String> b) {
+		return new Operand<>(String.class, a.getValue() + b.getValue());
 	}
 	
 	// add - type promotions
@@ -2467,6 +2485,10 @@ class DefaultFunctions extends FunctionRegistry {
 		return new BooleanOperand(((LongOperand)a).getLongValue() == ((LongOperand)b).getLongValue());
 	}
 	
+	private BooleanOperand stringsAreEqual(Operand<String> a, Operand<String> b) {
+		return new BooleanOperand(StringUtils.equals(a.getValue(), b.getValue()));
+	}
+	
 	// equals - type promotions
 	
 	private BooleanOperand bigDecimalEqualsToBigInteger(Operand<BigDecimal> a, Operand<BigInteger> b) {
@@ -2553,6 +2575,10 @@ class DefaultFunctions extends FunctionRegistry {
 	
 	private BooleanOperand longsAreNotEqual(Operand<Long> a, Operand<Long> b) {
 		return new BooleanOperand(((LongOperand)a).getLongValue() != ((LongOperand)b).getLongValue());
+	}
+	
+	private BooleanOperand stringsAreNotEqual(Operand<String> a, Operand<String> b) {
+		return new BooleanOperand(!StringUtils.equals(a.getValue(), b.getValue()));
 	}
 	
 	// not equals - type promotions
