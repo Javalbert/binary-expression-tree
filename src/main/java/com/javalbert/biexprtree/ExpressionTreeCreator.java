@@ -42,10 +42,6 @@ public class ExpressionTreeCreator {
 		this.operatorPrecedence = operatorPrecedence != null ? operatorPrecedence : BinaryOperatorPrecedence.INSTANCE;
 	}
 	
-	public Node getRootNode() {
-		return rootNode;
-	}
-	
 	public ExpressionTreeCreator(Expression expr) {
 		this(expr, null);
 	}
@@ -55,7 +51,7 @@ public class ExpressionTreeCreator {
 		setOperatorPrecedence(operatorPrecedence);
 	}
 	
-	public ExpressionTreeCreator create() {
+	public Node create() {
 		setupCreateProcess();
 		
 		for (Node node : expr.getNodes()) {
@@ -67,8 +63,9 @@ public class ExpressionTreeCreator {
 			}
 		}
 		
+		Node rootNode0 = rootNode;
 		cleanUp();
-		return this;
+		return rootNode0;
 	}
 	
 	private void addOperandToNewBinaryNode(BinaryOperatorDefinition binaryOpDef, Operand operand) {
@@ -87,8 +84,7 @@ public class ExpressionTreeCreator {
 			Expression nestedExpr = (Expression)operand.getValue();
 			
 			Node node = new ExpressionTreeCreator(nestedExpr, operatorPrecedence)
-			.create()
-			.getRootNode();
+			.create();
 			return new Operand(node.getClass(), node);
 		}
 		return operand;
@@ -98,6 +94,8 @@ public class ExpressionTreeCreator {
 		currentNode = null;
 		operatorsByPrecedence = null;
 		operatorWithMissingOperand = null;
+		
+		rootNode = null;
 	}
 	
 	private BinaryOperatorNode getLowerPriorityNode(int priority) {

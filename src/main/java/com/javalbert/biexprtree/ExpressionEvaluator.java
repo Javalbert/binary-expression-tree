@@ -21,7 +21,7 @@ import java.util.Objects;
 public class ExpressionEvaluator {
 	public static Object eval(Expression expr) {
 		return new ExpressionEvaluator().eval(
-				new ExpressionTreeCreator(expr).create().getRootNode()
+				new ExpressionTreeCreator(expr).create()
 				);
 	}
 	

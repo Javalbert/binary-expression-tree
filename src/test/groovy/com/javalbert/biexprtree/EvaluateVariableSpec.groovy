@@ -27,7 +27,7 @@ class EvaluateVariableSpec extends Specification {
 		.val(2).times().val(intVar)
 		
 		and: 'expression tree root node and evaluator'
-		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		Node node = new ExpressionTreeCreator(expr).create()
 		ExpressionEvaluator evaluator = new ExpressionEvaluator()
 		
 		when: 'evaluated for the first time'
@@ -56,7 +56,7 @@ class EvaluateVariableSpec extends Specification {
 		.times().val(3)
 		
 		and: 'expression tree root node and evaluator'
-		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		Node node = new ExpressionTreeCreator(expr).create()
 		ExpressionEvaluator evaluator = new ExpressionEvaluator()
 		
 		when: 'evaluated for the first time'

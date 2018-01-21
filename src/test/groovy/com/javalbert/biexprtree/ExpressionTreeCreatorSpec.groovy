@@ -9,7 +9,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
-		Node node = creator.create().getRootNode()
+		Node node = creator.create()
 		
 		then: 'root node is binary operator +'
 		node instanceof BinaryOperatorNode
@@ -28,7 +28,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
-		Node node = creator.create().getRootNode()
+		Node node = creator.create()
 		
 		then: 'root node is unary operator -'
 		node instanceof UnaryOperatorNode
@@ -49,7 +49,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		creator.setOperatorPrecedence(operatorPrecedence)
 		
 		and: 'expression tree is created'
-		BinaryOperatorNode node = creator.create().getRootNode()
+		BinaryOperatorNode node = creator.create()
 		
 		then: 'addition is child node of multiplication node'
 		node.getLeftOperand().getValue().getOperator() == '+'
@@ -61,7 +61,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
-		BinaryOperatorNode node = creator.create().getRootNode()
+		BinaryOperatorNode node = creator.create()
 		
 		then: 'left operand is additive inverse unary operator'
 		node.getLeftOperand().getValue() instanceof UnaryOperatorNode
@@ -77,7 +77,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
-		BinaryOperatorNode node = creator.create().getRootNode()
+		BinaryOperatorNode node = creator.create()
 		
 		then: 'left operand of root node is the addition operator node'
 		node.getLeftOperand().getValue().getOperator() == '+'
@@ -92,7 +92,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
-		BinaryOperatorNode node = creator.create().getRootNode()
+		BinaryOperatorNode node = creator.create()
 		
 		then: 'root node\'s right operand is second multiplication * 4'
 		BinaryOperatorNode secondMultiplication = node.getRightOperand().getValue()
@@ -115,7 +115,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
-		BinaryOperatorNode node = creator.create().getRootNode()
+		BinaryOperatorNode node = creator.create()
 		
 		then: 'root node\'s right operand is multiplication * 4'
 		BinaryOperatorNode multiplication = node.getRightOperand().getValue()
@@ -135,7 +135,7 @@ class ExpressionTreeCreatorSpec extends Specification {
 		ExpressionTreeCreator creator = new ExpressionTreeCreator(expr)
 		
 		when: 'expression tree is created'
-		BinaryOperatorNode node = creator.create().getRootNode()
+		BinaryOperatorNode node = creator.create()
 		
 		then: 'right operand is additive inverse'
 		node.getRightOperand().getValue().getOperator() == '-'
