@@ -45,4 +45,33 @@ class EvaluateVariableSpec extends Specification {
 		then: 'result is 6'
 		result == 6
 	}
+	
+	def 'Variable in nested expression changes result'() {
+		given: 'integer variable called "myInt" with value 2'
+		IntVariable intVar = new IntVariable('myInt', 2)
+		
+		and: 'expression (1 + myInt) * 3'
+		Expression expr = new Expression()
+		.expr(new Expression().val(1).plus().val(intVar))
+		.times().val(3)
+		
+		and: 'expression tree root node and evaluator'
+		Node node = new ExpressionTreeCreator(expr).create().getRootNode()
+		ExpressionEvaluator evaluator = new ExpressionEvaluator()
+		
+		when: 'evaluated for the first time'
+		Object result = evaluator.eval(node)
+		
+		then: 'result is 9'
+		result == 9
+		
+		when: 'integer variable is changed to 3'
+		intVar.setInt(3)
+		
+		and: 'evaluated for the second time'
+		result = evaluator.eval(node)
+		
+		then: 'result is 12'
+		result == 12
+	}
 }

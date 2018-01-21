@@ -474,4 +474,65 @@ class ExpressionSpec extends Specification {
 		then: '! operator was added'
 		expr.getNodes().get(0).getOperator() == '!'
 	}
+	
+	def 'Variable of nested Expression is retrievable from containing Expression'() {
+		given: 'a Variable named "myVar"'
+		IntVariable myVar = new IntVariable('myVar')
+		
+		when: 'a Expression 1 + (myVar) is created'
+		Expression expr = new Expression().val(1)
+		.plus().expr(new Expression().val(myVar))
+		
+		then: 'Variable "myVar" can be retrieved from containing Expression'
+		expr.getVariable('myVar') != null
+	}
+	
+	def 'Throw error if nested Expression contains a different Variable with the same name as containing Expression'() {
+		given: 'two Variables with the same name "myVar"'
+		IntVariable myVar1 = new IntVariable('myVar')
+		IntVariable myVar2 = new IntVariable('myVar')
+		
+		and: 'an unfinished Expression myVar +'
+		Expression expr = new Expression().val(myVar1).plus()
+		
+		when: 'nested Expression (myVar) is added'
+		expr.expr(new Expression().val(myVar2))
+		
+		then: 'error was thrown'
+		thrown(IllegalStateException)
+	}
+	
+	def 'Nested Expression is not mutatable after its been added to a containing Expression'() {
+		given: 'the nested Expression 1 + 2'
+		Expression nestedExpr = new Expression().val(1).plus().val(2)
+		
+		and: 'the containing Expression (1 + 2) * 3'
+		Expression expr = new Expression().expr(nestedExpr).times().val(3)
+		
+		when: '+ 3 is added to the nested Expression 1 + 2'
+		nestedExpr.plus().val(3)
+		
+		then: 'the nested Expression inside the containing Expression still has the 3 nodes of 1, +, and 2'
+		Operand operandWithNestedExpr = expr.getNodes()[0]
+		operandWithNestedExpr.getValue().getNodes().size() == 3
+	}
+	
+	def 'Nested Expression is added as an individual node after the containing Expression has been "flattened" into another Expression'() {
+		given: 'a containing Expression (1 + 2) * 3 where the 1 + 2 is the nested expression'
+		Expression containingExpr = new Expression()
+		.expr(new Expression().val(1).plus().val(2))
+		.times().val(3)
+		
+		and: 'an unfinished Expression 4 +'
+		Expression expr = new Expression().val(4).plus()
+		
+		when: 'the containing Expression is "flattened" into the unfinished Expression where the latter becomes 4 + (1 + 2) * 3'
+		expr.flatExpr(containingExpr)
+		
+		then: 'the now finished Expression\'s third node is the nested Expression 1 + 2'
+		Expression nestedExpr = expr.getNodes()[2].getValue()
+		nestedExpr.getNodes()[0].getValue() == 1
+		nestedExpr.getNodes()[1].getOperator() == '+'
+		nestedExpr.getNodes()[2].getValue() == 2
+	}
 }

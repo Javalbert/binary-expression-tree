@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 
 public class Expression {
@@ -36,26 +37,58 @@ public class Expression {
 		return Collections.unmodifiableList(nodes);
 	}
 	
+	public Map<String, Variable> getVariables() {
+		return Collections.unmodifiableMap(variables);
+	}
+	
+	public Expression() {}
+	
+	public Expression(Expression expr) {
+		nodes.addAll(expr.getNodes());
+		variables.putAll(expr.getVariables());
+	}
+	
 	public Variable getVariable(String name) {
 		return variables.get(name);
+	}
+	
+	private void addNestedVariables(Expression expr) {
+		for (Entry<String, Variable> entry : expr.getVariables().entrySet()) {
+			Variable nestedVariable = entry.getValue();
+			Variable existingVariable = variables.get(nestedVariable.getName());
+			
+			if (existingVariable == null) {
+				variables.put(nestedVariable.getName(), nestedVariable);
+			} else if (nestedVariable != existingVariable) {
+				throw new IllegalStateException("expr has a variable with the"
+						+ " same name (" + nestedVariable.getName()
+						+ ") as that of the containing Expression");
+			}
+		}
 	}
 	
 	/* START Operand methods */
 	
 	public Expression expr(Expression expr) {
 		Objects.requireNonNull(expr, "expr must not be null");
-		nodes.add(new Operand<>(Expression.class, expr));
+		addNestedVariables(expr);
+		nodes.add(new Operand<>(Expression.class, new Expression(expr)));
 		return this;
 	}
-	
+
 	public Expression flatExpr(Expression expr) {
 		Objects.requireNonNull(expr, "expr must not be null");
 		
-		expr.nodes.stream()
+		expr.getNodes().stream()
 		.forEach(node -> {
 			if (node instanceof Operand) {
 				Operand operand = (Operand)node;
-				val(operand.getValue(), operand.getOperandClass());
+				
+				if (operand.getValue() instanceof Expression) {
+					expr((Expression) operand.getValue());
+				} else {
+					val(operand.getValue(), operand.getOperandClass());
+				}
 			} else if (node instanceof BinaryOperatorDefinition) {
 				binaryOp((BinaryOperatorDefinition) node);
 			} else {
