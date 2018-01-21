@@ -17,6 +17,7 @@
 package com.javalbert.biexprtree;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -100,6 +101,11 @@ public class Expression {
 	
 	public Expression val(BigDecimal d) {
 		nodes.add(new Operand<>(BigDecimal.class, d));
+		return this;
+	}
+	
+	public Expression val(BigInteger i) {
+		nodes.add(new Operand<>(BigInteger.class, i));
 		return this;
 	}
 	

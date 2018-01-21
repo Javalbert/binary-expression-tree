@@ -85,6 +85,17 @@ class ExpressionSpec extends Specification {
 		expr.getNodes().get(0).getValue() == 1.23
 	}
 	
+	def 'BigInteger operand is added'() {
+		given: 'an Expression'
+		Expression expr = new Expression()
+		
+		when: 'BigInteger is added'
+		expr.val(123G)
+		
+		then: 'BigInteger operand was added'
+		expr.getNodes().get(0).getValue() == 123G
+	}
+	
 	def 'Date operand is added'() {
 		given: 'an Expression'
 		Expression expr = new Expression()
