@@ -6,7 +6,7 @@ repositories {
     jcenter()
 }
 
-description = 'Compose binary expression trees via fluent API and evaluate'
+description = 'Compose binary expression trees via method chaining and evaluate'
 group = 'com.javalbert'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
