@@ -331,7 +331,7 @@ public class Expression {
 		for (Node node : nodes) {
 			str.append(" ");
 			if (node instanceof Operand) {
-				str.append(((Operand)node).getValue());
+				str.append(((Operand)node).toStringValue());
 			} else {
 				str.append(node);
 			}
