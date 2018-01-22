@@ -62,7 +62,6 @@ public class ExpressionParser {
 	private List<String> tokens;
 	private Iterator<String> tokenIterator;
 	private String currentToken;
-	private String previousToken;
 	private Expression expression;
 	
 	public Set<String> getOperators() {
@@ -119,8 +118,7 @@ public class ExpressionParser {
 	}
 	
 	private boolean appendTokenWithinQuotes(StringBuilder str) {
-		if (currentToken.equals("\"")
-				&& !"\\".equals(previousToken)) {
+		if (currentToken.equals("\"")) {
 			return false;
 		}
 		
@@ -142,7 +140,6 @@ public class ExpressionParser {
 		tokens = null;
 		tokenIterator = null;
 		currentToken = null;
-		previousToken = null;
 		expression = null;
 	}
 	
@@ -173,7 +170,9 @@ public class ExpressionParser {
 	}
 	
 	private Pattern getTokenPattern() {
-		StringBuilder regex = new StringBuilder("\\w+|\\s+|\"|\\|\\(|\\)");
+		StringBuilder regex = new StringBuilder(
+				"([0-9]+\\.*[0-9]*(E\\d+)*)|\\w+|\\s+|\"|\\\\\"|\\(|\\)"
+				); // ([0-9]+\.*[0-9]*(E\d+)*)|\w+|\s+|"|\\"|\(|\)
 		operators.stream()
 		.map(op -> "|" + escapeRegexText(op))
 		.forEach(regex::append);
@@ -245,7 +244,6 @@ public class ExpressionParser {
 	
 	private boolean nextToken() {
 		if (tokenIterator.hasNext()) {
-			previousToken = currentToken;
 			currentToken = tokenIterator.next();
 			return true;
 		}

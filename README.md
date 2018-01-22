@@ -13,3 +13,4 @@ A [binary expression tree](https://en.wikipedia.org/wiki/Binary_expression_tree)
 - Order of operations for binary operators can be reordered
 - Left-to-right evaluation
 - Short-circuit evaluation
+- Expression parser uses the same API to build an expression
