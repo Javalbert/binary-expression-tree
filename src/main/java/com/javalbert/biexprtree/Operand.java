@@ -55,7 +55,7 @@ public class Operand<T> implements Node {
 		if (quote) {
 			str.append(((String)value).replaceAll("\"", "\\\\\""));
 		} else {
-			str.append(value);
+			str.append(getValue());
 		}
 		
 		if (quote) {

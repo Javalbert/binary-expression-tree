@@ -6,6 +6,9 @@ A [binary expression tree](https://en.wikipedia.org/wiki/Binary_expression_tree)
 
 - Infix notation
 - Supported numeric types: int, long, float, double, BigInteger, BigDecimal
+- Basic math operators: +, -, /, *, %, ** (exponentiation)
+- Basic boolean operators: =, !=, <, <=, >, >=
+- Unary operators: -, !
 - Expressions are built by chaining method calls instead of passing a string
 - Nested (i.e. parenthesized) expressions
 - Variables are mutable objects that can change the result of the next evaluation
@@ -13,4 +16,4 @@ A [binary expression tree](https://en.wikipedia.org/wiki/Binary_expression_tree)
 - Order of operations for binary operators can be reordered
 - Left-to-right evaluation
 - Short-circuit evaluation
-- Expression parser uses the same API to build an expression
+- Expression parser uses the same Expression API to build an expression

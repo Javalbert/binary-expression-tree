@@ -1,6 +1,7 @@
 package com.javalbert.biexprtree
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class ExpressionParserSpec extends Specification {
 	def 'Parsed expression contains "foobar"'() {
@@ -100,5 +101,54 @@ class ExpressionParserSpec extends Specification {
 		
 		then: 'Expression contains BigDecimal 1234567890E300'
 		expr.getNodes()[0].getValue() == 1234567890E300
+	}
+	
+	@Unroll("Operator #expectedOperator is added")
+	def 'Some operator is added'() {
+		given: 'an expression with an operator'
+		
+		when: 'parsed'
+		Expression expr = new ExpressionParser().parse(exprString)
+		
+		then: 'the operator was added'
+		expr.getNodes()[1].getOperator() == expectedOperator
+		
+		where: 'an expression produces an operator'
+		exprString	||	expectedOperator
+		'1 + 2'		||	'+'
+		'1 - 2'		||	'-'
+		'1 * 2'		||	'*'
+		'1 / 2'		||	'/'
+		'1 % 2'		||	'%'
+		'1 ** 2'	||	'**'
+		'1 = 2'		||	'='
+		'1 != 2'	||	'!='
+		'1 < 2'		||	'<'
+		'1 <= 2'	||	'<='
+		'1 > 2'		||	'>'
+		'1 >= 2'	||	'>='
+	}
+	
+	def 'Additive inverse operator is added'() {
+		given: '1 + -2'
+		String exprString = '1 + -2'
+		
+		when: 'parsed'
+		Expression expr = new ExpressionParser().parse(exprString)
+		
+		then: 'unary operator - was added'
+		expr.getNodes()[2] instanceof UnaryOperatorDefinition
+		expr.getNodes()[2].getOperator() == '-'
+	}
+	
+	def 'Throw error when there is an invalid token'() {
+		given: '"1 @ 2" where the at sign is the invalid token'
+		String exprString = '1 @ 2'
+		
+		when: 'parsed'
+		Expression expr = new ExpressionParser().parse(exprString)
+		
+		then: 'error was thrown'
+		thrown(IllegalArgumentException)
 	}
 }

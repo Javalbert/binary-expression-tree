@@ -62,6 +62,7 @@ public class ExpressionParser {
 	private List<String> tokens;
 	private Iterator<String> tokenIterator;
 	private String currentToken;
+	private String previousToken;
 	private Expression expression;
 	
 	public Set<String> getOperators() {
@@ -129,10 +130,12 @@ public class ExpressionParser {
 	private void buildExpression() {
 		tokenIterator = tokens.iterator();
 		
-		while (nextToken()) {
-			if (handleOperand()) {
-				;
-			}
+		while (nextToken()
+				&& (handleWhiteSpace()
+				|| handleOperator()
+				|| handleOperand()
+				|| throwInvalidTokenError())) {
+			;
 		}
 	}
 	
@@ -173,7 +176,21 @@ public class ExpressionParser {
 		StringBuilder regex = new StringBuilder(
 				"([0-9]+\\.*[0-9]*(E\\d+)*)|\\w+|\\s+|\"|\\\\\"|\\(|\\)"
 				); // ([0-9]+\.*[0-9]*(E\d+)*)|\w+|\s+|"|\\"|\(|\)
-		operators.stream()
+		
+		List<String> operatorList = new ArrayList<>(operators);
+		// sort to put more specific operators first
+		// e.g. not equal (!=) before logical NOT (!)
+		// otherwise != token will never appear
+		operatorList.sort((a, b) -> {
+			if (a.startsWith(b)) {
+				return -1;
+			} else if (b.startsWith(a)) {
+				return 1;
+			}
+			return a.compareTo(b);
+		});
+		
+		operatorList.stream()
 		.map(op -> "|" + escapeRegexText(op))
 		.forEach(regex::append);
 		return Pattern.compile(regex.toString());
@@ -221,6 +238,40 @@ public class ExpressionParser {
 		return false;
 	}
 	
+	private boolean handleOperator() {
+		if (!operators.contains(currentToken)) {
+			return false;
+		}
+		
+		switch (currentToken) {
+			case "+": expression.plus(); break;
+			case "-":
+				if (operators.contains(previousToken)) {
+					expression.negate();
+				} else {
+					expression.minus();
+				}
+				break;
+			case "*": expression.times(); break;
+			case "/": expression.dividedBy(); break;
+			case "%": expression.modulo(); break;
+			case "**": expression.powerOf(); break;
+			case "=": expression.eq(); break;
+			case "!=": expression.noteq(); break;
+			case "<": expression.lt(); break;
+			case "<=": expression.lteq(); break;
+			case ">": expression.gt(); break;
+			case ">=": expression.gteq(); break;
+			case "!": expression.not(); break;
+			default:
+//				expression.binaryOp(op);
+//				expression.unaryOp(op);
+				break;
+		}
+		
+		return true;
+	}
+	
 	private boolean handleString() {
 		if (!currentToken.equals("\"")) {
 			return false;
@@ -236,6 +287,10 @@ public class ExpressionParser {
 		return true;
 	}
 	
+	private boolean handleWhiteSpace() {
+		return currentToken.trim().isEmpty();
+	}
+	
 	private void initOperators() {
 		if (operators == DEFAULT_OPERATORS) {
 			operators = new HashSet<>(DEFAULT_OPERATORS);
@@ -244,9 +299,17 @@ public class ExpressionParser {
 	
 	private boolean nextToken() {
 		if (tokenIterator.hasNext()) {
+			if (currentToken != null && !currentToken.trim().isEmpty()) {
+				previousToken = currentToken;
+			}
+			
 			currentToken = tokenIterator.next();
 			return true;
 		}
 		return false;
+	}
+	
+	private boolean throwInvalidTokenError() {
+		throw new IllegalArgumentException("Invalid token: " + currentToken);
 	}
 }
