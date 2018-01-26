@@ -185,4 +185,40 @@ class ExpressionParserSpec extends Specification {
 		expr.getNodes()[0] instanceof UnaryOperatorDefinition
 		expr.getNodes()[0].getOperator() == '-'
 	}
+	
+	def 'Custom binary operator was added'() {
+		given: '1 @ 2'
+		String exprString = '1 @ 2'
+		
+		and: 'a custom binary operator definition @'
+		BinaryOperatorDefinition binaryOperator = new BinaryOperatorDefinition('@')
+		
+		when: 'the binary operator definition is added to the parser'
+		ExpressionParser parser = new ExpressionParser()
+		parser.addBinaryOperator(binaryOperator)
+		
+		and: 'then the expression "1 @ 2" is parsed'
+		Expression expr = parser.parse(exprString)
+		
+		then: 'second node is the binary operator @'
+		expr.getNodes()[1] == binaryOperator
+	}
+	
+	def 'Custom unary operator was added'() {
+		given: '*1'
+		String exprString = '*1'
+		
+		and: 'a custom unary operator definition *'
+		UnaryOperatorDefinition unaryOperator = new UnaryOperatorDefinition('*')
+		
+		when: 'the unary operator definition is added to the parser'
+		ExpressionParser parser = new ExpressionParser()
+		parser.addUnaryOperator(unaryOperator)
+		
+		and: 'then the expression "*1" is parsed'
+		Expression expr = parser.parse(exprString)
+		
+		then: 'first node is the unary operator *'
+		expr.getNodes()[0] == unaryOperator
+	}
 }
