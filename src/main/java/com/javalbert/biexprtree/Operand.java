@@ -41,16 +41,26 @@ public class Operand<T> implements Node {
 	
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder("[Operand ");
+		return "[Operand " + toStringValue() + "]";
+	}
+	
+	String toStringValue() {
+		StringBuilder str = new StringBuilder();
 		
 		boolean quote = String.class.isAssignableFrom(operandClass) && value != null;
 		if (quote) {
-			builder.append("\"");
+			str.append("\"");
 		}
-		builder.append(value);
+		
 		if (quote) {
-			builder.append("\"");
+			str.append(((String)value).replaceAll("\"", "\\\\\""));
+		} else {
+			str.append(getValue());
 		}
-		return builder.append("]").toString();
+		
+		if (quote) {
+			str.append("\"");
+		}
+		return str.toString();
 	}
 }
