@@ -154,6 +154,7 @@ public class ExpressionParser {
 				&& (handleWhiteSpace()
 				|| handleOperator()
 				|| handleOperand()
+				|| handleVariable()
 				|| throwInvalidTokenError())) {
 			;
 		}
@@ -309,6 +310,15 @@ public class ExpressionParser {
 		}
 		expression.val(strWithinQuotes.toString());
 		
+		return true;
+	}
+	
+	private boolean handleVariable() {
+		Variable variable = variables.get(currentToken);
+		if (variable == null) {
+			return false;
+		}
+		expression.val(variable);
 		return true;
 	}
 	

@@ -221,4 +221,24 @@ class ExpressionParserSpec extends Specification {
 		then: 'first node is the unary operator *'
 		expr.getNodes()[0] == unaryOperator
 	}
+	
+	def 'Variable was added'() {
+		given: '1 + x'
+		String exprString = '1 + x'
+		
+		and: 'Variable "x"'
+		Variable x = new IntVariable('x')
+		
+		when: 'x is added to parser'
+		ExpressionParser parser = new ExpressionParser()
+		parser.addVariable(x)
+		
+		and: 'then the expression "1 + x" is parsed'
+		Expression expr = parser.parse(exprString)
+		
+		then: 'second operand is a Variable named "x"'
+		Operand operand = expr.getNodes()[2]
+		operand.getValue() instanceof Variable
+		operand.getValue().getName() == 'x'
+	}
 }
