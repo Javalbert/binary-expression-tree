@@ -31,30 +31,38 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.text.StringEscapeUtils;
 
+import static java.util.stream.Collectors.*;
+
 public class ExpressionParser {
-	private static final Set<String> DEFAULT_OPERATORS;
+	private static final Map<String, BinaryOperatorDefinition> DEFAULT_BINARY_OPERATORS;
+	private static final Map<String, UnaryOperatorDefinition> DEFAULT_UNARY_OPERATORS;
+	
 	static {
-		Set<String> defaultOperators = new HashSet<>();
-		defaultOperators.add(Operators.ADD.getOperator());
-		defaultOperators.add(Operators.SUBTRACT.getOperator());
-		defaultOperators.add(Operators.MULTIPLY.getOperator());
-		defaultOperators.add(Operators.DIVIDE.getOperator());
-		defaultOperators.add(Operators.MODULO.getOperator());
-		defaultOperators.add(Operators.POWER.getOperator());
-		defaultOperators.add(Operators.NEGATE.getOperator());
-		defaultOperators.add(Operators.EQ.getOperator());
-		defaultOperators.add(Operators.NOTEQ.getOperator());
-		defaultOperators.add(Operators.LT.getOperator());
-		defaultOperators.add(Operators.LTEQ.getOperator());
-		defaultOperators.add(Operators.GT.getOperator());
-		defaultOperators.add(Operators.GTEQ.getOperator());
-		defaultOperators.add(Operators.AND.getOperator());
-		defaultOperators.add(Operators.OR.getOperator());
-		defaultOperators.add(Operators.NOT.getOperator());
-		DEFAULT_OPERATORS = Collections.unmodifiableSet(defaultOperators);
+		Map<String, BinaryOperatorDefinition> binaryOperators = new HashMap<>();
+		binaryOperators.put(Operators.ADD.getOperator(), Operators.ADD);
+		binaryOperators.put(Operators.SUBTRACT.getOperator(), Operators.SUBTRACT);
+		binaryOperators.put(Operators.MULTIPLY.getOperator(), Operators.MULTIPLY);
+		binaryOperators.put(Operators.DIVIDE.getOperator(), Operators.DIVIDE);
+		binaryOperators.put(Operators.MODULO.getOperator(), Operators.MODULO);
+		binaryOperators.put(Operators.POWER.getOperator(), Operators.POWER);
+		binaryOperators.put(Operators.EQ.getOperator(), Operators.EQ);
+		binaryOperators.put(Operators.NOTEQ.getOperator(), Operators.NOTEQ);
+		binaryOperators.put(Operators.LT.getOperator(), Operators.LT);
+		binaryOperators.put(Operators.LTEQ.getOperator(), Operators.LTEQ);
+		binaryOperators.put(Operators.GT.getOperator(), Operators.GT);
+		binaryOperators.put(Operators.GTEQ.getOperator(), Operators.GTEQ);
+		binaryOperators.put(Operators.AND.getOperator(), Operators.AND);
+		binaryOperators.put(Operators.OR.getOperator(), Operators.OR);
+		DEFAULT_BINARY_OPERATORS = Collections.unmodifiableMap(binaryOperators);
+
+		Map<String, UnaryOperatorDefinition> unaryOperators = new HashMap<>();
+		unaryOperators.put(Operators.NEGATE.getOperator(), Operators.NEGATE);
+		unaryOperators.put(Operators.NOT.getOperator(), Operators.NOT);
+		DEFAULT_UNARY_OPERATORS = Collections.unmodifiableMap(unaryOperators);
 	}
 	
-	private Set<String> operators = DEFAULT_OPERATORS;
+	private Map<String, BinaryOperatorDefinition> binaryOperators = DEFAULT_BINARY_OPERATORS;
+	private Map<String, UnaryOperatorDefinition> unaryOperators = DEFAULT_UNARY_OPERATORS;
 	private final Map<String, Variable> variables = new HashMap<>();
 	
 	// processing
@@ -65,17 +73,26 @@ public class ExpressionParser {
 	private String previousToken;
 	private Expression expression;
 	
-	public Set<String> getOperators() {
-		return Collections.unmodifiableSet(operators);
+	public Map<String, BinaryOperatorDefinition> getBinaryOperators() {
+		return Collections.unmodifiableMap(binaryOperators);
+	}
+	
+	public Map<String, UnaryOperatorDefinition> getUnaryOperators() {
+		return Collections.unmodifiableMap(unaryOperators);
 	}
 	
 	public Map<String, Variable> getVariables() {
 		return Collections.unmodifiableMap(variables);
 	}
 	
-	public boolean addOperator(String operator) {
-		initOperators();
-		return operators.add(Functions.validateOperator(operator));
+	public BinaryOperatorDefinition addBinaryOperator(BinaryOperatorDefinition binaryOperator) {
+		initBinaryOperators();
+		return binaryOperators.put(binaryOperator.getOperator(), binaryOperator);
+	}
+	
+	public UnaryOperatorDefinition addUnaryOperator(UnaryOperatorDefinition unaryOperator) {
+		initUnaryOperators();
+		return unaryOperators.put(unaryOperator.getOperator(), unaryOperator);
 	}
 	
 	public Variable addVariable(Variable variable) {
@@ -95,9 +112,14 @@ public class ExpressionParser {
 		return expr;
 	}
 	
-	public boolean removeOperator(String operator) {
-		initOperators();
-		return operators.remove(operator);
+	public BinaryOperatorDefinition removeBinaryOperator(String operator) {
+		initBinaryOperators();
+		return binaryOperators.remove(operator);
+	}
+	
+	public UnaryOperatorDefinition removeUnaryOperator(String operator) {
+		initUnaryOperators();
+		return unaryOperators.remove(operator);
 	}
 	
 	public Variable removeVariable(String name) {
@@ -143,6 +165,7 @@ public class ExpressionParser {
 		tokens = null;
 		tokenIterator = null;
 		currentToken = null;
+		previousToken = null;
 		expression = null;
 	}
 	
@@ -177,7 +200,16 @@ public class ExpressionParser {
 				"([0-9]+\\.*[0-9]*(E\\d+)*)|\\w+|\\s+|\"|\\\\\"|\\(|\\)"
 				); // ([0-9]+\.*[0-9]*(E\d+)*)|\w+|\s+|"|\\"|\(|\)
 		
-		List<String> operatorList = new ArrayList<>(operators);
+		List<String> operatorList = new ArrayList<>();
+		operatorList.addAll(binaryOperators.values()
+				.stream()
+				.map(BinaryOperatorDefinition::getOperator)
+				.collect(toList()));
+		operatorList.addAll(unaryOperators.values()
+				.stream()
+				.map(UnaryOperatorDefinition::getOperator)
+				.collect(toList()));
+		
 		// sort to put more specific operators first
 		// e.g. not equal (!=) before logical NOT (!)
 		// otherwise != token will never appear
@@ -239,34 +271,29 @@ public class ExpressionParser {
 	}
 	
 	private boolean handleOperator() {
-		if (!operators.contains(currentToken)) {
+		if (!binaryOperators.containsKey(currentToken)
+				&& !unaryOperators.containsKey(currentToken)) {
 			return false;
 		}
 		
-		switch (currentToken) {
-			case "+": expression.plus(); break;
-			case "-":
-				if (operators.contains(previousToken)) {
-					expression.negate();
-				} else {
-					expression.minus();
-				}
-				break;
-			case "*": expression.times(); break;
-			case "/": expression.dividedBy(); break;
-			case "%": expression.modulo(); break;
-			case "**": expression.powerOf(); break;
-			case "=": expression.eq(); break;
-			case "!=": expression.noteq(); break;
-			case "<": expression.lt(); break;
-			case "<=": expression.lteq(); break;
-			case ">": expression.gt(); break;
-			case ">=": expression.gteq(); break;
-			case "!": expression.not(); break;
-			default:
-//				expression.binaryOp(op);
-//				expression.unaryOp(op);
-				break;
+		if (previousToken == null
+				|| binaryOperators.containsKey(previousToken)
+				|| unaryOperators.containsKey(previousToken)) {
+			UnaryOperatorDefinition unaryOperator = unaryOperators.get(currentToken);
+			
+			if (unaryOperator == null) {
+				throw new IllegalArgumentException("Unrecognized unary operator: " + currentToken);
+			}
+			
+			expression.unaryOp(unaryOperator);
+		} else {
+			BinaryOperatorDefinition binaryOperator = binaryOperators.get(currentToken);
+			
+			if (binaryOperator == null) {
+				throw new IllegalArgumentException("Unrecognized binary operator: " + currentToken);
+			}
+			
+			expression.binaryOp(binaryOperator);
 		}
 		
 		return true;
@@ -291,9 +318,15 @@ public class ExpressionParser {
 		return currentToken.trim().isEmpty();
 	}
 	
-	private void initOperators() {
-		if (operators == DEFAULT_OPERATORS) {
-			operators = new HashSet<>(DEFAULT_OPERATORS);
+	private void initBinaryOperators() {
+		if (binaryOperators == DEFAULT_BINARY_OPERATORS) {
+			binaryOperators = new HashMap<>(DEFAULT_BINARY_OPERATORS);
+		}
+	}
+	
+	private void initUnaryOperators() {
+		if (unaryOperators == DEFAULT_UNARY_OPERATORS) {
+			unaryOperators = new HashMap<>(DEFAULT_UNARY_OPERATORS);
 		}
 	}
 	

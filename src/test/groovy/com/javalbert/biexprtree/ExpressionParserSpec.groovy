@@ -151,4 +151,38 @@ class ExpressionParserSpec extends Specification {
 		then: 'error was thrown'
 		thrown(IllegalArgumentException)
 	}
+	
+	def 'Throw error on unrecognized binary operator'() {
+		given: '1 ! 2'
+		String exprString = '1 ! 2'
+		
+		when: 'parsed'
+		Expression expr = new ExpressionParser().parse(exprString)
+		
+		then: 'error was thrown'
+		thrown(IllegalArgumentException)
+	}
+	
+	def 'Throw error on unrecognized unary operator'() {
+		given: '*1'
+		String exprString = '*1'
+		
+		when: 'parsed'
+		Expression expr = new ExpressionParser().parse(exprString)
+		
+		then: 'error was thrown'
+		thrown(IllegalArgumentException)
+	}
+	
+	def 'Unary operator is added as the first token'() {
+		given: '-2'
+		String exprString = '-2'
+		
+		when: 'parsed'
+		Expression expr = new ExpressionParser().parse(exprString)
+		
+		then: 'first node is the additive inverse unary operator'
+		expr.getNodes()[0] instanceof UnaryOperatorDefinition
+		expr.getNodes()[0].getOperator() == '-'
+	}
 }
