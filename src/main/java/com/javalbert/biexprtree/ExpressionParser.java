@@ -152,9 +152,10 @@ public class ExpressionParser {
 		
 		while (nextToken()
 				&& (handleWhiteSpace()
-				|| handleOperator()
-				|| handleOperand()
 				|| handleVariable()
+				|| handleOperator()
+				|| handleNestedExpression()
+				|| handleOperand()
 				|| throwInvalidTokenError())) {
 			;
 		}
@@ -166,6 +167,24 @@ public class ExpressionParser {
 		currentToken = null;
 		previousToken = null;
 		expression = null;
+	}
+	
+	private String createNestedExpressionString() {
+		int level = 1;
+		StringBuilder nestedExprString = new StringBuilder();
+		
+		while (level > 0 && nextToken()) {
+			if ("(".equals(currentToken)) {
+				level++;
+			} else if (")".equals(currentToken)) {
+				level--;
+			}
+			
+			if (level >= 1) {
+				nestedExprString.append(currentToken);
+			}
+		}
+		return nestedExprString.toString();
 	}
 	
 	private List<String> createTokens(String exprString) {
@@ -253,6 +272,22 @@ public class ExpressionParser {
 			builder.append(c);
 		}
 		return builder.toString();
+	}
+	
+	private boolean handleNestedExpression() {
+		if (!"(".equals(currentToken)) {
+			return false;
+		}
+		
+		ExpressionParser nestedParser = new ExpressionParser();
+		nestedParser.binaryOperators = binaryOperators;
+		nestedParser.unaryOperators = unaryOperators;
+		nestedParser.variables.putAll(variables);
+		
+		Expression nestedExpr = nestedParser.parse(createNestedExpressionString());
+		expression.expr(nestedExpr);
+		
+		return true;
 	}
 	
 	private boolean handleOperand() {

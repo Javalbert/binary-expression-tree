@@ -241,4 +241,28 @@ class ExpressionParserSpec extends Specification {
 		operand.getValue() instanceof Variable
 		operand.getValue().getName() == 'x'
 	}
+	
+	def 'Nested expression is parsed'() {
+		given: '(1 + 2) * 3'
+		String exprString = '(1 + 2) * 3'
+		
+		when: 'parsed'
+		Expression expr = new ExpressionParser().parse(exprString)
+		
+		then: 'first operand is an Expression object'
+		Operand operand = expr.getNodes()[0]
+		operand.getValue() instanceof Expression
+	}
+	
+	def 'Second-level nested expression is parsed'() {
+		given: '2 * (3 + 4 * (5 + 6))'
+		String exprString = '2 * (3 + 4 * (5 + 6))'
+		
+		when: 'parsed'
+		Expression expr = new ExpressionParser().parse(exprString)
+		
+		then: 'second-level nested expression was added'
+		Expression nestedExpr1 = expr.getNodes()[2].getValue()
+		nestedExpr1.getNodes()[4].getValue() instanceof Expression
+	}
 }
