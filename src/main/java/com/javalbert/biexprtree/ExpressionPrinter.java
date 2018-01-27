@@ -34,9 +34,13 @@ public class ExpressionPrinter {
 	
 	public String print(Expression expr) {
 		builder = new StringBuilder();
+		unaryOperatorPreviously = false;
+		
 		expr.getNodes().forEach(this::handleNode);
 		String str = builder.toString();
+		
 		builder = null;
+		
 		return str.trim();
 	}
 	
