@@ -77,7 +77,7 @@ class ExpressionPrinterSpec extends Specification {
 	
 	def 'Print variable value'() {
 		given: 'a Variable named "x" with an integer value of 2'
-		Variable x = new IntVariable('x', 3)
+		Variable x = new IntVariable('x', 2)
 		
 		and: 'an Expression 1 + x'
 		Expression expr = new Expression().val(1).plus().val(x)
