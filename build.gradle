@@ -1,6 +1,8 @@
 apply plugin: 'java-library'
 apply plugin: 'groovy'
 apply plugin: 'jacoco'
+apply plugin: 'maven'
+apply plugin: 'signing'
 
 repositories {
     jcenter()
@@ -8,7 +10,8 @@ repositories {
 
 description = 'Compose binary expression trees via method chaining and evaluate'
 group = 'com.javalbert'
-version = '0.0.1-SNAPSHOT'
+archivesBaseName = 'binary-expression-tree'
+version = '1.0.0'
 sourceCompatibility = 1.8
 
 dependencies {
@@ -34,5 +37,67 @@ jacocoTestReport {
 	reports {
 		xml.enabled false
 		html.enabled true
+	}
+}
+
+task javadocJar(type: Jar) {
+	classifier = 'javadoc'
+	from javadoc
+}
+
+task sourcesJar(type: Jar) {
+	classifier = 'sources'
+	from sourceSets.main.allSource
+}
+
+artifacts {
+	archives javadocJar, sourcesJar
+}
+
+signing {
+	sign configurations.archives
+}
+
+uploadArchives {
+	repositories {
+		mavenDeployer {
+			beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+			repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+				authentication(userName: ossrhUsername, password: ossrhPassword)
+			}
+
+			snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+				authentication(userName: ossrhUsername, password: ossrhPassword)
+			}
+
+			pom.project {
+				name 'binary-expression-tree'
+				packaging 'jar'
+				description 'Compose binary expression trees via method chaining and evaluate'
+				url 'https://github.com/Javalbert/binary-expression-tree'
+
+				scm {
+					connection 'scm:git:git://github.com/Javalbert/binary-expression-tree.git'
+					developerConnection 'scm:git:git@github.com:Javalbert/binary-expression-tree.git'
+					url 'https://github.com/Javalbert/binary-expression-tree'
+				}
+
+				licenses {
+					license {
+						name 'The Apache License, Version 2.0'
+						url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+					}
+				}
+
+				developers {
+					developer {
+						id 'albertchan'
+						name 'Albert Shun-Dat Chan'
+						email 'albert.shun.dat.chan@gmail.com'
+					}
+				}
+			}
+		}
 	}
 }
