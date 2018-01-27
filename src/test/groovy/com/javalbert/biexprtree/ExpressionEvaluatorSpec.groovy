@@ -8,7 +8,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		Expression expr = new Expression().val(1)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is 1'
 		result == 1
@@ -19,7 +19,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		Expression expr = new Expression().negate().val(2)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is -2'
 		result == -2
@@ -30,7 +30,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		Expression expr = new Expression().val(1).plus().val(2)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is 3'
 		result == 3
@@ -43,7 +43,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.times().val(3)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is 7'
 		result == 7
@@ -57,7 +57,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.times().val(3)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is 9'
 		result == 9
@@ -70,7 +70,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.minus().val(2)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is 10'
 		result == 10
@@ -83,7 +83,7 @@ class ExpressionEvaluatorSpec extends Specification {
 			.minus().val(2))
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is 4'
 		result == 4
@@ -95,8 +95,8 @@ class ExpressionEvaluatorSpec extends Specification {
 		Expression expr2 = new Expression().val(0.5).plus().val(1)
 		
 		when: 'both are evaluated'
-		Object result1 = ExpressionEvaluator.eval(expr1)
-		Object result2 = ExpressionEvaluator.eval(expr2)
+		Object result1 = new ExpressionEvaluator().eval(expr1)
+		Object result2 = new ExpressionEvaluator().eval(expr2)
 		
 		then: 'result for both expressions is 1.5'
 		result1 == 1.5
@@ -109,7 +109,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.and().val(3).lt().val(4)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is false'
 		result == false
@@ -121,7 +121,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.and().val(3).gt().val(4)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is false'
 		result == false
@@ -133,7 +133,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.and().val(3).lt().val(4)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is true'
 		result == true
@@ -145,7 +145,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.or().val(3).gt().val(4)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is true'
 		result == true
@@ -157,7 +157,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.or().val(3).lt().val(4)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is true'
 		result == true
@@ -169,7 +169,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.or().val(3).gt().val(4)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is false'
 		result == false
@@ -182,7 +182,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.and().val(5).gt().val(6)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is true'
 		result == true
@@ -196,7 +196,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.and().val(5).gt().val(6)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is false'
 		result == false
@@ -209,7 +209,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.dividedBy().val(3)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is -1'
 		result == -1
@@ -223,7 +223,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.and().val(3).lt().val(4)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is true'
 		result == true
@@ -238,7 +238,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.eq().val('Albert Chan')
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is true'
 		result == true
@@ -253,7 +253,7 @@ class ExpressionEvaluatorSpec extends Specification {
 		.and().val(myStr).noteq().val('bar')
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is true'
 		result == true

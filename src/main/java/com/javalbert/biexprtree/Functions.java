@@ -18,8 +18,8 @@ package com.javalbert.biexprtree;
 
 import java.util.Objects;
 
-public final class Functions {
-	public static String validateOperator(String operator) {
+final class Functions {
+	static String validateOperator(String operator) {
 		Objects.requireNonNull(operator, "operator must not be null");
 		operator = operator.trim();
 		if (operator.isEmpty()) {

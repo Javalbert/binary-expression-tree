@@ -12,7 +12,7 @@ class EvaluateVariableSpec extends Specification {
 		.val(1).plus().val(intVar)
 		
 		when: 'evaluated'
-		Object result = ExpressionEvaluator.eval(expr)
+		Object result = new ExpressionEvaluator().eval(expr)
 		
 		then: 'result is 3'
 		result == 3

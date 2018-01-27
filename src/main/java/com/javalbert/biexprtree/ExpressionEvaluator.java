@@ -19,12 +19,6 @@ package com.javalbert.biexprtree;
 import java.util.Objects;
 
 public class ExpressionEvaluator {
-	public static Object eval(Expression expr) {
-		return new ExpressionEvaluator().eval(
-				new ExpressionTreeCreator(expr).create()
-				);
-	}
-	
 	private final FunctionRegistry functionRegistry;
 	
 	public ExpressionEvaluator() {
@@ -37,6 +31,10 @@ public class ExpressionEvaluator {
 	
 	private BinaryOperatorInfo binaryOperatorInfoHashKey;
 	private UnaryOperatorInfo unaryOperatorInfoHashKey;
+	
+	public Object eval(Expression expr) {
+		return eval(new ExpressionTreeCreator(expr).create());
+	}
 	
 	public Object eval(Node node) {
 		Objects.requireNonNull(node, "node must not be null");
