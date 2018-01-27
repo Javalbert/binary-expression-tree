@@ -17,27 +17,19 @@
 package com.javalbert.biexprtree;
 
 public class ExpressionPrinter {
-	private BinaryOperatorPrecedence operatorPrecedence;
+	private boolean printVariableValues;
 	
 	// processing
 	//
 	private StringBuilder builder;
 	private boolean unaryOperatorPreviously;
 	
-	public BinaryOperatorPrecedence getOperatorPrecedence() {
-		return operatorPrecedence;
+	public boolean isPrintVariableValues() {
+		return printVariableValues;
 	}
 	
-	public void setOperatorPrecedence(BinaryOperatorPrecedence operatorPrecedence) {
-		this.operatorPrecedence = operatorPrecedence != null ? operatorPrecedence : BinaryOperatorPrecedence.INSTANCE;
-	}
-	
-	public ExpressionPrinter() {
-		this(null);
-	}
-	
-	public ExpressionPrinter(BinaryOperatorPrecedence operatorPrecedence) {
-		setOperatorPrecedence(operatorPrecedence);
+	public void setPrintVariableValues(boolean printVariableValues) {
+		this.printVariableValues = printVariableValues;
 	}
 	
 	public String print(Expression expr) {
@@ -67,21 +59,39 @@ public class ExpressionPrinter {
 			builder.append(" ");
 		}
 		
-		if (value instanceof String) {
-			builder.append("\"")
-			.append(value.toString().replaceAll("\"", "\\\\\""))
-			.append("\"");
+		if (value instanceof Number) {
+			builder.append(value);
+		} else if (value instanceof String) {
+			printStringWithQuotes(value);
+		} else if (value instanceof Variable) {
+			handleVariable((Variable) value);
 		} else if (value instanceof Expression) {
 			builder.append("(")
 			.append(new ExpressionPrinter().print((Expression)value))
 			.append(")");
+		}
+	}
+	
+	private void handleVariable(Variable variable) {
+		if (printVariableValues) {
+			if (variable.getValue() instanceof String) {
+				printStringWithQuotes(variable.getValue());
+			} else {
+				builder.append(variable.getValue());
+			}
 		} else {
-			builder.append(value);
+			builder.append(variable.getName());
 		}
 	}
 	
 	private void printOperator(Operator operator) {
 		builder.append(" ")
 		.append(operator.getOperator());
+	}
+	
+	private void printStringWithQuotes(Object value) {
+		builder.append("\"")
+		.append(value.toString().replaceAll("\"", "\\\\\""))
+		.append("\"");
 	}
 }
